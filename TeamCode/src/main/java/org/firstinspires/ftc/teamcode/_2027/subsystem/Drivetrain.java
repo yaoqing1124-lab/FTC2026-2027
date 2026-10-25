@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode._2027.subsystem;
 import com.pedropathing.follower.Follower;
 
 
+import org.firstinspires.ftc.teamcode._2027.util.DriveType;
 import org.firstinspires.ftc.teamcode.arch.op.OpBehavior;
 import org.firstinspires.ftc.teamcode.arch.op.OpObject;
 import org.firstinspires.ftc.teamcode._2027.pedroPathing.Constants;
@@ -11,7 +12,7 @@ public class Drivetrain extends OpBehavior {
     private Drivetrain(){}
     private final static Drivetrain s_instance;
     static {
-        Constants.setDrive(Constants.Type.Mecanum);
+        Constants.setDrive(DriveType.Mecanum);
         s_instance = new Drivetrain();
         OpObject.RegisterGlobalBehavior(s_instance);
     }

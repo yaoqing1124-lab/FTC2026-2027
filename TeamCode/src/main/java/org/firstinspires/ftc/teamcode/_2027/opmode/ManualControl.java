@@ -3,9 +3,11 @@ package org.firstinspires.ftc.teamcode._2027.opmode;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode._2027.opmode.auto.AutoBase;
+import org.firstinspires.ftc.teamcode._2027.opmode.auto.util.AutoBase;
 import org.firstinspires.ftc.teamcode._2027.subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode._2027.subsystem.Intake;
+import org.firstinspires.ftc.teamcode._2027.subsystem.shooter.Flywheel;
+import org.firstinspires.ftc.teamcode._2027.util.Mode;
 import org.firstinspires.ftc.teamcode._2027.util.Team;
 import org.firstinspires.ftc.teamcode.arch.op.OpObject;
 import org.firstinspires.ftc.teamcode.arch.utils.Debug;
@@ -30,22 +32,23 @@ public class ManualControl extends OpObject {
     public void Start() {
         Drivetrain.get_Follower().setStartingPose(AutoBase.savePose);
         Drivetrain.get_Follower().startTeleOpDrive();
+        Flywheel.enablePredict = false;
     }
 
     @Override
     public void Loop() {
-        axial   = gamepad1.left_stick_y * 0.5;
-        lateral = gamepad1.left_stick_x * 0.5;
-        yaw     = gamepad1.right_stick_x * 0.5;
+        axial   = -gamepad1.left_stick_y;
+        lateral = -gamepad1.left_stick_x;
+        yaw     = -gamepad1.right_stick_x;
         Drivetrain.get_Follower().setTeleOpDrive(axial, lateral, yaw * 0.65, false);
         if (gamepad1.circleWasPressed() || gamepad2.circleWasPressed()) {
             isLeft = !isLeft;
         }
 
         if (gamepad1.left_bumper) {
-            Intake.setMode(Intake.Mode.shoot);
+            Intake.setMode(Mode.shoot);
         } else {
-            Intake.setMode(Intake.Mode.intake);
+            Intake.setMode(Mode.intake);
         }
         debug();
     }

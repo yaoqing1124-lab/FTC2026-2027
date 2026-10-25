@@ -4,7 +4,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-import org.firstinspires.ftc.teamcode.Config;
+import org.firstinspires.ftc.teamcode._2027.Config;
+import org.firstinspires.ftc.teamcode._2027.util.Mode;
 import org.firstinspires.ftc.teamcode.arch.op.OpBehavior;
 import org.firstinspires.ftc.teamcode.arch.op.OpObject;
 public class Intake extends OpBehavior {
@@ -15,9 +16,6 @@ public class Intake extends OpBehavior {
     static {
         m_instance = new Intake();
         OpObject.RegisterGlobalBehavior(m_instance);
-    }
-    public enum Mode{
-        intake, shoot, brake;
     }
     private static Mode m_mode;
 

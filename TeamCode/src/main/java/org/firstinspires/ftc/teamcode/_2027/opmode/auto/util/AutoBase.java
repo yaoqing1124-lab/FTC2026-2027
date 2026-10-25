@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode._2027.opmode.auto;
+package org.firstinspires.ftc.teamcode._2027.opmode.auto.util;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
@@ -61,15 +61,15 @@ public abstract class AutoBase extends OpObject {
     /**
      * 設定alliance, 直接寫return就好 ex:return Team.Blue;
      */
-    abstract Team setTeam();
+    public abstract Team setTeam();
 
     /**
      * 設定進入狀態 直接寫return就好
      */
-    abstract StateObject setEntryState();
+    public abstract StateObject setEntryState();
 
     /**
      * 設定狀態鏈 ex:entryState.Then().Then().....;
      */
-    abstract void setStateChain(StateObject entryState);
+    public abstract void setStateChain(StateObject entryState);
 }

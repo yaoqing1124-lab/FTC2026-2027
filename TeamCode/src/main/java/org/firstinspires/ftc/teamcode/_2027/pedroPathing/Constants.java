@@ -17,7 +17,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.Config;
+import org.firstinspires.ftc.teamcode._2027.Config;
+import org.firstinspires.ftc.teamcode._2027.util.DriveType;
 
 @Configurable
 public class Constants {
@@ -35,10 +36,10 @@ public class Constants {
             .leftRearMotorName  (Config.hardware.motor.lbm.id)
             .rightFrontMotorName(Config.hardware.motor.rfm.id)
             .rightRearMotorName (Config.hardware.motor.rbm.id)
-            .leftFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
-            .leftRearMotorDirection(DcMotorSimple.Direction.FORWARD)
-            .rightFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
-            .rightRearMotorDirection(DcMotorSimple.Direction.REVERSE)
+            .leftFrontMotorDirection (Config.hardware.motor.lfm.direction)
+            .leftRearMotorDirection  (Config.hardware.motor.lbm.direction)
+            .rightFrontMotorDirection(Config.hardware.motor.rfm.direction)
+            .rightRearMotorDirection (Config.hardware.motor.rbm.direction)
             .xVelocity(73.26)   //forward max power
             .yVelocity(52.26)   // <-  max power
             .useBrakeModeInTeleOp(false);
@@ -109,14 +110,14 @@ public class Constants {
     public enum Type{
         Mecanum, Swerve;
     }
-    private static Type type;
-    public static void setDrive(Type type){
+    private static DriveType type;
+    public static void setDrive(DriveType type){
         Constants.type = type;
     }
 
     public static Follower createFollower(HardwareMap hardwareMap) {
         if(type == null){
-            type = Type.Mecanum;
+            type = DriveType.Mecanum;
         }
         switch (type){
             case Mecanum:
