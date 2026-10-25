@@ -12,7 +12,7 @@ public class Drivetrain extends OpBehavior {
     private Drivetrain(){}
     private final static Drivetrain s_instance;
     static {
-        Constants.setDrive(DriveType.Mecanum);
+        Constants.setDrive(DriveType.Swerve);
         s_instance = new Drivetrain();
         OpObject.RegisterGlobalBehavior(s_instance);
     }

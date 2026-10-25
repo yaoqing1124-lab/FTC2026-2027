@@ -50,10 +50,10 @@ public class Config {
 
     public static class odometry {
         public final static String id = "pinpoint"; // odometry configure name
-        public final static double forwardOffset = 0; //Redo robot -> fix    odometry偏移量(mm)
-        public final static double strafeOffset  = 0; //Redo robot -> fix    (mm)
+        public final static double forwardOffset = 60.0; //Redo robot -> fix    odometry偏移量(mm)
+        public final static double strafeOffset  = 16.6; //Redo robot -> fix    (mm)
         public final static GoBildaPinpointDriver.EncoderDirection forwardDirection = GoBildaPinpointDriver.EncoderDirection.REVERSED;
-        public final static GoBildaPinpointDriver.EncoderDirection strafeDirection  = GoBildaPinpointDriver.EncoderDirection.FORWARD;
+        public final static GoBildaPinpointDriver.EncoderDirection strafeDirection  = GoBildaPinpointDriver.EncoderDirection.REVERSED;
     }
 
     // +=======================+
