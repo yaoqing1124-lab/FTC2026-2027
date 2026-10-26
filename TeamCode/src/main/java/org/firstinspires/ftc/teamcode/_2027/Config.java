@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode._2027;
 
+import com.bylazar.configurables.annotations.Configurable;
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -7,13 +8,16 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.teamcode._2027.util.AnalogConfig;
+import org.firstinspires.ftc.teamcode._2027.util.DriveType;
 import org.firstinspires.ftc.teamcode._2027.util.LimelightConfig;
 import org.firstinspires.ftc.teamcode._2027.util.MotorConfig;
 import org.firstinspires.ftc.teamcode._2027.util.ServoConfig;
 import org.firstinspires.ftc.teamcode._2027.util.Team;
 
+@Configurable
 public class Config {
     Team team = Team.none;
+    public final static DriveType driveMode = DriveType.Swerve; //設定底盤模組 Mecanum/Swerve
     // +=======================+
     // |硬體設定               |
     // +=======================+

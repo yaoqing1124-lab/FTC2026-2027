@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp
 public class Setting extends OpMode {
     public static class flywheelValue{
-        static double targetRPM;
+        static double targetRPM = 0;
     }
     public static class servoPosition{
         static double yawPosition = 0.5;
