@@ -5,6 +5,7 @@ import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode._2027.subsystem.Drivetrain;
+import org.firstinspires.ftc.teamcode._2027.subsystem.limelight.Limelight;
 import org.firstinspires.ftc.teamcode._2027.util.Team;
 import org.firstinspires.ftc.teamcode.arch.op.OpObject;
 import org.firstinspires.ftc.teamcode.arch.op.behavior.statemachine.StateMachine;
@@ -12,7 +13,6 @@ import org.firstinspires.ftc.teamcode.arch.op.behavior.statemachine.StateObject;
 
 
 public abstract class AutoBase extends OpObject {
-    public static Team team;
     public static Pose savePose;
     protected Follower follower;
     protected ElapsedTime timer = new ElapsedTime();
@@ -24,7 +24,7 @@ public abstract class AutoBase extends OpObject {
     // ==================
     @Override
     public void Init() {
-        team = setTeam();
+        OpObject.team = setTeam();
         switch (team) {
             case blue:
                 break;

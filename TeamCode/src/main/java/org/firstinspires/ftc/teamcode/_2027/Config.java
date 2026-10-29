@@ -151,4 +151,13 @@ public class Config {
         public static final double ROBOT_WIDTH = 16.0; //沿前軸的機器人足跡
         public static final double ROBOT_HEIGHT = 16.0; //機器人沿著前軸的足跡
     }
+
+    public static class LLvalue {
+        public static class pipeline{
+            public static final int apriltag = 0;
+            public static final int detector = 1;
+            public static final int python = 2;
+        }
+        public static final double DETECTOR_TOLERANCE_MILLISECOND = 100;
+    }
 }

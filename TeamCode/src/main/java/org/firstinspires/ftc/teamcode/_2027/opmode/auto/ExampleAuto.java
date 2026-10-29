@@ -21,15 +21,14 @@ public class ExampleAuto extends AutoBase {
     }
 
     @Override //設定進入狀態
-    public StateObject setEntryState() {
-        return new FollowState(null);
-    }
+    public StateObject setEntryState() {return AutoState.toShoot();}
 
     @Override //設定狀態鏈
     public void setStateChain(StateObject entryState) {
         entryState.Then(new WaitForMillisecond(0), new Shoot(true))  //先執行entryState(FollowPath)然後射球直到wait設定的時間到
                 .Then(new Shoot(false)) //關閉shoot
-                .Then(new FollowState(null))  //跟隨路徑
-                .Then(AutoState.toPipe.UP);
+                .Then(AutoState.toPipe.DOWN())
+                .Then(AutoState.toShoot())
+                .Then(new WaitForMillisecond(0), new Shoot(true));
     }
 }

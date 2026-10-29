@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FTC 2026-2027 工程筆記 (雙獎項滿分版：控制獎 1A~5 + 設計獎 1~5 對齊 3 頁 A4)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+
+  :root {
+    --primary: #0f172a;
+    --accent: #2563eb;
+    --accent-light: #dbeafe;
+    --accent-dark: #1d4ed8;
+    --teal: #0d9488;
+    --teal-light: #ccfbf1;
+    --amber: #d97706;
+    --amber-light: #fef3c7;
+    --rose: #e11d48;
+    --rose-light: #ffe4e6;
+    --purple: #7c3aed;
+    --purple-light: #ede9fe;
+    --emerald: #059669;
+    --emerald-light: #d1fae5;
+    --slate-50: #f8fafc;
+    --slate-100: #f1f5f9;
+    --slate-200: #e2e8f0;
+    --slate-300: #cbd5e1;
+    --slate-600: #475569;
+    --slate-700: #334155;
+    --slate-800: #1e293b;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body {
+    font-family: 'Inter', 'Noto Sans TC', "Microsoft JhengHei", -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #cbd5e1;
+    color: var(--slate-800);
+    line-height: 1.35;
+    font-size: 8.5pt;
+  }
+
+  .screen-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #0f172a;
+    color: #fff;
+    padding: 10px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  }
+  .screen-toolbar .info {
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .screen-toolbar .badge {
+    background: #2563eb;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 11px;
+  }
+  .screen-toolbar button {
+    background: #10b981;
+    color: #fff;
+    border: none;
+    padding: 7px 16px;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .screen-toolbar button:hover {
+    background: #059669;
+  }
+
+  .page {
+    width: 210mm;
+    height: 297mm;
+    background: #ffffff;
+    margin: 16px auto;
+    padding: 8mm 9.5mm 7.5mm 9.5mm;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 28px rgba(15, 23, 42, 0.18);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  @media print {
+    body {
+      background: #ffffff;
+    }
+    .screen-toolbar {
+      display: none !important;
+    }
+    .page {
+      margin: 0;
+      box-shadow: none;
+      page-break-after: always;
+      break-after: page;
+    }
+    .page:last-child {
+      page-break-after: auto;
+      break-after: auto;
+    }
+  }
+
+  /* Header */
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2.5px solid var(--primary);
+    padding-bottom: 4px;
+    margin-bottom: 5.5px;
+  }
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .team-badge {
+    background: var(--primary);
+    color: #fff;
+    font-weight: 900;
+    font-size: 10.6pt;
+    padding: 4px 10px;
+    border-radius: 5px;
+    letter-spacing: 0.5px;
+  }
+  .header-titles h1 {
+    font-size: 11.8pt;
+    font-weight: 900;
+    color: var(--primary);
+    letter-spacing: -0.2px;
+  }
+  .header-titles p {
+    font-size: 7.1pt;
+    color: var(--slate-600);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .header-right {
+    text-align: right;
+  }
+  .award-tag {
+    display: inline-block;
+    background: var(--accent-light);
+    color: var(--accent-dark);
+    border: 1px solid #93c5fd;
+    font-size: 7pt;
+    font-weight: 800;
+    padding: 1.5px 7px;
+    border-radius: 4px;
+    margin-bottom: 2px;
+  }
+  .award-tag.teal { background: var(--teal-light); color: #0f766e; border-color: #5eead4; }
+  .award-tag.amber { background: var(--amber-light); color: #b45309; border-color: #fcd34d; }
+  .page-num {
+    font-size: 7.2pt;
+    font-weight: 700;
+    color: var(--slate-600);
+  }
+
+  /* Rubric Criterion Pill */
+  .crit-pill {
+    display: inline-block;
+    background: #1d4ed8;
+    color: #fff;
+    font-size: 6.3pt;
+    font-weight: 800;
+    padding: 1px 4.5px;
+    border-radius: 3px;
+    margin-right: 3px;
+    vertical-align: middle;
+  }
+  .crit-pill.ctrl { background: #1d4ed8; }
+  .crit-pill.dsgn { background: #b45309; }
+  .crit-pill.rec { background: #0d9488; }
+  .crit-pill.eng { background: #7c3aed; }
+
+  /* Grid Layouts */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .grid-col-55-45 {
+    display: grid;
+    grid-template-columns: 1.12fr 0.88fr;
+    gap: 6px;
+  }
+  .grid-col-45-55 {
+    display: grid;
+    grid-template-columns: 0.90fr 1.10fr;
+    gap: 6px;
+  }
+
+  /* Section Cards */
+  .card {
+    background: #ffffff;
+    border: 1px solid var(--slate-300);
+    border-radius: 6px;
+    padding: 5.5px 7.5px;
+    position: relative;
+  }
+  .card-slate { background: var(--slate-50); }
+  .card-accent { background: #f8fbff; border-color: #93c5fd; }
+  .card-teal { background: #f0fdfa; border-color: #5eead4; }
+  .card-amber { background: #fffbeb; border-color: #fcd34d; }
+  .card-purple { background: #faf5ff; border-color: #d8b4fe; }
+  .card-dark { background: #0f172a; color: #fff; border-color: #334155; }
+
+  .card-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 8.7pt;
+    font-weight: 800;
+    color: var(--primary);
+    border-bottom: 1.5px solid var(--slate-200);
+    padding-bottom: 2.5px;
+    margin-bottom: 4px;
+  }
+  .card-title .tag {
+    font-family: 'JetBrains Mono', Consolas, monospace;
+    font-size: 6.4pt;
+    font-weight: 600;
+    padding: 1px 5px;
+    border-radius: 3px;
+    background: var(--slate-200);
+    color: var(--slate-800);
+  }
+  .card-title .tag-blue { background: var(--accent); color: #fff; }
+  .card-title .tag-teal { background: var(--teal); color: #fff; }
+  .card-title .tag-amber { background: var(--amber); color: #fff; }
+  .card-title .tag-purple { background: var(--purple); color: #fff; }
+
+  p, li {
+    font-size: 7.65pt;
+    color: var(--slate-700);
+  }
+
+  ul {
+    padding-left: 12px;
+    margin: 1.5px 0;
+  }
+  li {
+    margin-bottom: 1.8px;
+  }
+  li strong, p strong {
+    color: var(--primary);
+    font-weight: 700;
+  }
+
+  code {
+    font-family: 'JetBrains Mono', Consolas, monospace;
+    font-size: 6.8pt;
+    background: var(--slate-100);
+    border: 1px solid var(--slate-200);
+    padding: 0.5px 3px;
+    border-radius: 3px;
+    color: #be123c;
+    font-weight: 600;
+  }
+
+  .formula-box {
+    background: var(--primary);
+    color: #f8fafc;
+    font-family: 'JetBrains Mono', Consolas, monospace;
+    font-size: 6.9pt;
+    padding: 4px 6.5px;
+    border-radius: 4px;
+    margin: 2.5px 0;
+    border-left: 3px solid #38bdf8;
+    line-height: 1.32;
+  }
+  .formula-box .comment { color: #94a3b8; font-size: 6.3pt; display: block; }
+  .formula-box .hl { color: #38bdf8; font-weight: 700; }
+  .formula-box .hl-amber { color: #fbbf24; font-weight: 700; }
+  .formula-box .hl-green { color: #34d399; font-weight: 700; }
+  .formula-box .hl-rose { color: #fb7185; font-weight: 700; }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2px;
+    font-size: 7.05pt;
+  }
+  th, td {
+    border: 1px solid var(--slate-300);
+    padding: 2px 4.5px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: var(--slate-100);
+    color: var(--primary);
+    font-weight: 800;
+  }
+  td {
+    color: var(--slate-700);
+  }
+
+  /* Callout for Team to fill in */
+  .todo-box {
+    border: 1.5px dashed var(--amber);
+    background: var(--amber-light);
+    border-radius: 5px;
+    padding: 4px 6.5px;
+    font-size: 7.2pt;
+    color: #92400e;
+  }
+  .todo-box strong { color: #78350f; }
+
+  /* Step badges */
+  .step-list {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .step-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    background: #fff;
+    border: 1px solid var(--slate-200);
+    border-radius: 4px;
+    padding: 3px 5.5px;
+  }
+  .step-num {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 800;
+    font-size: 6.7pt;
+    min-width: 42px;
+    text-align: center;
+    padding: 1.5px 3.5px;
+    border-radius: 3px;
+    margin-top: 1px;
+  }
+  .step-num.teal { background: var(--teal); }
+  .step-num.amber { background: var(--amber); }
+  .step-num.rose { background: var(--rose); }
+  .step-num.purple { background: var(--purple); }
+
+  /* Footer */
+  .page-footer {
+    border-top: 1.5px solid var(--slate-300);
+    padding-top: 3px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 6.8pt;
+    color: var(--slate-600);
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<div class="screen-toolbar">
+  <div class="info">
+    <span class="badge">雙獎項滿分版：控制獎 (表6-8) + 設計獎 (表6-9) 全面對齊 3 頁 A4</span>
+    <span>藍色標籤 = 【控制獎 1A~5】 | 橘色標籤 = 【設計獎 1~5（優雅/高效/易維護/整機設計/策略一致）】— 按 Ctrl+P 即可另存為 A4 PDF</span>
+  </div>
+  <button onclick="window.print()">🖨️ 列印 / 儲存為 3 頁 A4 PDF</button>
+</div>
+
+<!-- ===================================================================== -->
+<!-- PAGE 1: HOLISTIC SYSTEM MATRIX, ELEGANT ARCHITECTURE & STATE MACHINE  -->
+<!-- ===================================================================== -->
+<div class="page">
+  <div>
+    <div class="page-header">
+      <div class="header-left">
+        <div class="team-badge">FTC #XXXX [填入隊號]</div>
+        <div class="header-titles">
+          <h1>整機機電協同設計、優雅易維護軟體架構與平行狀態機</h1>
+          <p>Holistic Mechatronic Co-Design, Elegant Maintainable Architecture &amp; Parallel State Machine</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="award-tag">CONTROL (1A–1C, 3–5) &amp; DESIGN AWARD (1, 2, 4, 5)</div>
+        <div class="page-num">Page 1 of 3 | 2026–2027 Season</div>
+      </div>
+    </div>
+
+    <!-- Section 1: Master Matrix aligning Control Award (1A, 1B, 1C, 2) AND Design Award (1, 2, 3, 4, 5) -->
+    <div class="card card-slate" style="margin-bottom: 5.5px;">
+      <div class="card-title">
+        <span><span class="crit-pill ctrl">控制獎 1A/1B/1C/2</span><span class="crit-pill dsgn">設計獎 1/2/3/4/5</span>全車整機系統設計、解決挑戰、運作原理與易維護性總覽矩陣</span>
+        <span class="tag tag-blue">Holistic System Matrix</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width:19%;">[控制1A / 設計2] 整機軟硬體組件</th>
+            <th style="width:25%;">[控制1B / 設計4] 解決挑戰與設計基礎考量</th>
+            <th style="width:31%;">[控制1C / 項目2] 運作原理與外部感測器回饋控制</th>
+            <th style="width:25%;">[設計1 / 設計5] 優雅、易維護與比賽策略一致性</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>解耦生命週期與平行狀態機</strong><br><code>OpObject</code> / <code>OpBehavior</code><br><code>StateMachine</code> (DAG)</td>
+            <td>解決傳統單一 OpMode 阻塞（<code>sleep</code>）無法邊走邊射，以及迭代中動態修改狀態引發 <code>ConcurrentModificationException</code> 閃退。</td>
+            <td>透過 <code>Class.forName</code> 與 <code>RegisterGlobalBehavior()</code> 自動掛載；<code>Then(S1,S2)</code> 支援平行分支，並以 <code>m_statesToAdd</code> 緩衝佇列保護執行期安全。</td>
+            <td><strong>[優雅易維護]</strong> 新增子系統零樣板碼；<code>AutoState.toPipe.UP()</code> 一行宣告式語法讓現場配合盟友改戰術路線僅需 10 秒。</td>
+          </tr>
+          <tr>
+            <td><strong>四輪同軸舵輪與緊湊底盤</strong><br>4x <code>CoaxialPod</code> (16"×16")<br>+ 4x 類比絕對編碼器</td>
+            <td>考量全場高機動穿梭與抗衝撞需求，捨棄傳統麥克納姆輪，採用軸距 <code>210×296mm</code> 同軸舵輪，並解決後置砲塔造成的重心偏移。</td>
+            <td><strong>[外部回饋]</strong> 4x 類比編碼器（<code>0.001~3.225V</code>）即時回饋絕對輪角；設計前後軸非對稱前饋（<code>kFFront=0.013, kFBack=0.019</code>）與 <code>X_LOCK</code> 菱形鎖死。</td>
+            <td><strong>[高維護性]</strong> <code>Constants.java</code> 支援 Swerve/Mecanum 單行指令切換（<code>Config.driveMode</code>），機構維修替換時免改控制邏輯。</td>
+          </tr>
+          <tr>
+            <td><strong>雙輪里程計與曲線導航</strong><br><code>goBILDA Pinpoint</code> (I2C)<br>+ <code>Pedro Pathing</code></td>
+            <td>解決驅動輪打滑漂移與過彎甩尾，並消除自動階段跨段誤差累積與紅藍方座標重複編寫之維護負擔。</td>
+            <td><strong>[外部回饋]</strong> 雙正交接地輪 + IMU 回饋場地座標與速度向量；<code>FollowState(Pose)</code> 於啟動瞬間抓取當下真實座標動態生成直線/貝茲曲線。</td>
+            <td><strong>[策略一致]</strong> <code>AutoPose</code> 自動鏡像紅藍方座標，<code>AutoBase.savePose</code> 無縫將自動終點座標交接予手動階段全場自瞄。</td>
+          </tr>
+          <tr>
+            <td><strong>單飛輪導罩與 355° 砲塔</strong><br><code>Flywheel</code> + <code>Pitch/Yaw</code><br>+ 8" 雙馬達差速 <code>Intake</code></td>
+            <td><strong>[設計3/4 與眾不同]</strong> 前置 8" 寬吸球機構，將砲塔設計為<strong>背向正中（-180°）之 355° 旋轉單飛輪弧形導罩</strong>，大幅縮減轉動慣量與機構干涉。</td>
+            <td><strong>[外部回饋]</strong> 結合飛輪編碼器 7 點移動平均濾波回饋、底盤速度向量補償與 <code>frontWallDistance</code> 防撞框檢查，動態反解二次方程微調仰角。</td>
+            <td><strong>[核心策略 &amp; 易維護]</strong> 實現「車頭專注吸球、砲塔獨立移動射擊」策略；內建<strong>雙參數 5 分鐘現場校準 SOP</strong> 極致簡化維護。</td>
+          </tr>
+          <tr>
+            <td><strong>AI 視覺感知與新鮮度防護</strong><br><code>Limelight 3A</code> (100Hz)</td>
+            <td>解決激烈碰撞後里程計累積偏移，以及相機掉幀時過期殘影造成自動階段誤判之挑戰。</td>
+            <td><strong>[外部回饋]</strong> 100Hz 輪詢切換 <code>AprilTag MegaTag 3D</code> 絕對定位、<code>Neural Detector</code> 與 <code>Python</code>，並以 <code>isConfidence() (&lt;100ms)</code> 驗證有效性。</td>
+            <td><strong>[模組化封裝]</strong> 呼叫 <code>Limelight.apriltag / detector</code> 時自動切換 Pipeline，簡潔直覺且防呆。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 2: Design Award Criteria 1, 2, 5 — Elegant, Maintainable & Strategy-Aligned Architecture -->
+    <div class="grid-col-55-45" style="margin-bottom: 5.5px;">
+      <div class="card card-amber">
+        <div class="card-title">
+          <span><span class="crit-pill dsgn">設計獎 1 / 2 / 5</span><span class="crit-pill ctrl">控制獎 1C</span>1. 優雅、高效且易於維護之整機軟硬體協同設計</span>
+          <span class="tag tag-amber">Elegance &amp; Maintainability</span>
+        </div>
+        <ul>
+          <li><strong>為什麼這是一套「整機協同設計」而非單一組件拼湊（設計獎必要項目 2）？</strong><br>
+            我們將機體規劃為 <code>16" × 16"</code> 緊湊足跡（<code>Config.marrow</code>）：前方配置 <code>8.0 in</code> 寬度雙馬達差速進球（同向吸球預備、反向以固定 <code>3.0 in/s</code> 送料），上方搭載背向正中之低慣量單飛輪砲塔，底部配置四輪同軸舵輪與 Pinpoint 里程計。軟體透過 <code>OpObject</code> 全域匯流排將<strong>底盤瞬時速度向量、進球初速與飛輪真實轉速</strong>即時融合，實現<strong>「底盤全向吸球、砲塔獨立鎖定目標移動射擊（Shoot-on-the-Move）」</strong>的核心比賽策略（設計獎項目 5）！</li>
+          <li><strong>優雅、簡單可執行且極致易於維護（設計獎必要項目 1）</strong>：
+            <br>① <strong>單一組態中心與快修標記</strong>：全車硬體腳位、轉向與物理常數集中於 <code>@Configurable Config.java</code>，並明確標註 <code>// Redo robot -&gt; fix</code> 維修檢核點，更換馬達或飛輪時無須翻找各子系統程式碼；
+            <br>② <strong>零重新編譯熱更新與 <code>0.05</code> 通訊快取</strong>：支援 Dashboard 現場即時調參，並透過 <code>CachingThreshold = 0.05</code> 過濾重複硬體寫入，兼具執行效率與維護便利性。</li>
+        </ul>
+      </div>
+
+      <!-- SVG Architecture Diagram -->
+      <div class="card card-dark" style="display:flex; flex-direction:column; justify-content:center; align-items:center; padding: 5px;">
+        <div style="font-size:7.2pt; font-weight:800; color:#38bdf8; margin-bottom:2px;">
+          ▼ 整機機電軟硬體協同架構與外部感測回饋閉迴路圖
+        </div>
+        <svg viewBox="0 0 355 128" width="100%" height="122" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arr1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+              <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+            </marker>
+          </defs>
+          <rect x="6" y="3" width="342" height="24" rx="4" fill="#1d4ed8" stroke="#93c5fd" stroke-width="1.2"/>
+          <text x="177" y="14" fill="#fff" font-size="7.6" font-weight="bold" text-anchor="middle">OpObject 核心調度器 (ManualControl TeleOp &amp; AutoBase Autonomous)</text>
+          <text x="177" y="23" fill="#dbeafe" font-size="6.1" text-anchor="middle">Class.forName 自動掛載 ──► Init() ──► Start() ──► Loop() [Non-Blocking] ──► Stop()</text>
+
+          <line x1="42" y1="27" x2="42" y2="39" stroke="#38bdf8" stroke-width="1.1" marker-end="url(#arr1)"/>
+          <line x1="132" y1="27" x2="132" y2="39" stroke="#38bdf8" stroke-width="1.1" marker-end="url(#arr1)"/>
+          <line x1="222" y1="27" x2="222" y2="39" stroke="#38bdf8" stroke-width="1.1" marker-end="url(#arr1)"/>
+          <line x1="312" y1="27" x2="312" y2="39" stroke="#38bdf8" stroke-width="1.1" marker-end="url(#arr1)"/>
+
+          <rect x="6" y="40" width="76" height="36" rx="3" fill="#0f766e" stroke="#5eead4" stroke-width="1"/>
+          <text x="44" y="52" fill="#fff" font-size="6.8" font-weight="bold" text-anchor="middle">StateMachine</text>
+          <text x="44" y="61" fill="#ccfbf1" font-size="5.6" text-anchor="middle">DAG .Then(S1,S2)</text>
+          <text x="44" y="70" fill="#ccfbf1" font-size="5.6" text-anchor="middle">LogicSwitch/Timeout</text>
+
+          <rect x="88" y="40" width="86" height="36" rx="3" fill="#0f766e" stroke="#5eead4" stroke-width="1"/>
+          <text x="131" y="52" fill="#fff" font-size="6.8" font-weight="bold" text-anchor="middle">Drivetrain &amp; Intake</text>
+          <text x="131" y="61" fill="#ccfbf1" font-size="5.6" text-anchor="middle">Coaxial Swerve + X_LOCK</text>
+          <text x="131" y="70" fill="#ccfbf1" font-size="5.6" text-anchor="middle">8" 雙馬達差速吸球/送料</text>
+
+          <rect x="180" y="40" width="88" height="36" rx="3" fill="#b45309" stroke="#fcd34d" stroke-width="1"/>
+          <text x="224" y="52" fill="#fff" font-size="6.8" font-weight="bold" text-anchor="middle">Flywheel &amp; Yaw</text>
+          <text x="224" y="61" fill="#fef3c7" font-size="5.6" text-anchor="middle">355° 背向單飛輪導罩砲塔</text>
+          <text x="224" y="70" fill="#fef3c7" font-size="5.6" text-anchor="middle">7-Pt Avg + 二次方程仰角</text>
+
+          <rect x="274" y="40" width="74" height="36" rx="3" fill="#6d28d9" stroke="#c4b5fd" stroke-width="1"/>
+          <text x="311" y="52" fill="#fff" font-size="6.8" font-weight="bold" text-anchor="middle">Limelight 3A</text>
+          <text x="311" y="61" fill="#ede9fe" font-size="5.6" text-anchor="middle">100Hz MegaTag 3D</text>
+          <text x="311" y="70" fill="#ede9fe" font-size="5.6" text-anchor="middle">Staleness &lt; 100ms</text>
+
+          <rect x="6" y="84" width="342" height="40" rx="4" fill="#1e293b" stroke="#34d399" stroke-width="1.2"/>
+          <text x="177" y="96" fill="#34d399" font-size="7.1" font-weight="bold" text-anchor="middle">【控制獎項目 2：外部感測回饋層】×【設計獎項目 1：0.05 通訊快取與 @Configurable 易維護層】</text>
+          <text x="177" y="107" fill="#e2e8f0" font-size="6.0" text-anchor="middle">• Pinpoint 雙正交編碼器+IMU ──► 位置/速度向量回饋  |  • 4x Analog 絕對編碼器 (0~3.22V) ──► 舵輪角度閉迴路</text>
+          <text x="177" y="117" fill="#e2e8f0" font-size="6.0" text-anchor="middle">• 飛輪 Encoder (28 Ticks/Rev) ──► 實際初速反解仰角回饋  |  • Limelight 3A ──► 3D BotPose 與物件角度回饋</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Section 3: Parallel DAG State Machine & Engineering Process -->
+    <div class="grid-col-55-45" style="margin-bottom: 5px;">
+      <div class="card card-teal">
+        <div class="card-title">
+          <span><span class="crit-pill dsgn">設計獎 1 / 2</span><span class="crit-pill eng">控制獎 3 / 4 / 5</span>2. 平行狀態機開發流程、優雅語法與經驗總結</span>
+          <span class="tag tag-teal">statemachine.*</span>
+        </div>
+        <ul>
+          <li><strong>詳細開發流程演進 (設計獎必要項目 2 &amp; 控制獎項目 5)</strong>：
+            <br>• <em>v1 (傳統線性狀態)</em>：移動與射擊無法並行，且迭代中切換狀態曾觸發 <code>ConcurrentModificationException</code> 閃退。
+            <br>• <em>v2 (DAG 平行狀態機 + 延遲佇列)</em>：設計 <code>m_isIterating</code> 保護鎖與 <code>m_statesToAdd / m_statesToRemove</code> 緩衝集，並透過 <code>StateObject.Then(StateObject...)</code> 支援一對多平行執行（如同時啟動計時阻障與送料射擊）。
+            <br>• <em>v3 (動態起點 <code>FollowState(Pose)</code>)</em>：將路徑建構延遲至狀態啟動瞬間 <code>Init()</code> 才抓取 <code>m_follower.getPose()</code>，使 <code>AutoState</code> 簡化為一行優雅語法 <code>new FollowState(AutoPose.pipe.UP_PIPE)</code>！</li>
+          <li><strong>學到的經驗 (Lessons Learned)</strong>：將「宣告式狀態鏈定義」與「執行期感測器座標求值」解耦，不僅徹底消除靜態載入時機錯誤，更讓自動階段具備前段碰撞後的自動路徑重規劃能力。</li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="formula-box" style="margin-top:0;">
+          <span class="comment">// ExampleAuto.java &amp; AutoState.java — 優雅易讀之宣告式平行狀態鏈</span>
+          entryState<br>
+          &nbsp;&nbsp;.<span class="hl">Then</span>(<span class="hl-amber">new WaitForMillisecond(300)</span>, <span class="hl-green">new Shoot(true)</span>)<br>
+          &nbsp;&nbsp;.<span class="hl">Then</span>(<span class="hl-green">new Shoot(false)</span>)<br>
+          &nbsp;&nbsp;.<span class="hl">Then</span>(AutoState.toPipe.UP())&nbsp;&nbsp;<span class="comment">// 僅需一行！Init() 時自動抓當下 Pose</span><br>
+          &nbsp;&nbsp;.<span class="hl">Then</span>(<span class="hl-rose">AutoState.toShoot()</span>);&nbsp;<span class="comment">// LogicSwitch(() -&gt; isPositive)</span>
+        </div>
+        <svg viewBox="0 0 295 58" width="100%" height="54" xmlns="http://www.w3.org/2000/svg" style="margin-top:2.5px;">
+          <rect x="2" y="16" width="54" height="24" rx="4" fill="#0f172a"/>
+          <text x="29" y="27" fill="#fff" font-size="6.5" font-weight="bold" text-anchor="middle">entryState</text>
+          <text x="29" y="36" fill="#38bdf8" font-size="5.5" text-anchor="middle">(FollowState)</text>
+          <line x1="56" y1="23" x2="76" y2="11" stroke="#0d9488" stroke-width="1.4"/>
+          <line x1="56" y1="33" x2="76" y2="45" stroke="#0d9488" stroke-width="1.4"/>
+          <rect x="76" y="1" width="68" height="20" rx="3" fill="#d97706"/>
+          <text x="110" y="13" fill="#fff" font-size="6.3" font-weight="bold" text-anchor="middle">Wait(300ms)</text>
+          <rect x="76" y="35" width="68" height="20" rx="3" fill="#2563eb"/>
+          <text x="110" y="47" fill="#fff" font-size="6.3" font-weight="bold" text-anchor="middle">Shoot(true)</text>
+          <line x1="144" y1="11" x2="162" y2="25" stroke="#0d9488" stroke-width="1.4"/>
+          <rect x="162" y="16" width="56" height="24" rx="4" fill="#0f172a"/>
+          <text x="190" y="27" fill="#fff" font-size="6.3" font-weight="bold" text-anchor="middle">Shoot(false)</text>
+          <text x="190" y="36" fill="#34d399" font-size="5.5" text-anchor="middle">→ toPipe.UP()</text>
+          <line x1="218" y1="28" x2="232" y2="28" stroke="#0d9488" stroke-width="1.4"/>
+          <polygon points="262,3 293,28 262,53 232,28" fill="#e11d48"/>
+          <text x="262" y="27" fill="#fff" font-size="6" font-weight="bold" text-anchor="middle">LogicSwitch</text>
+          <text x="262" y="35" fill="#ffe4e6" font-size="5.3" text-anchor="middle">isPositive?</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Bottom Callout -->
+    <div class="todo-box">
+      <strong>📌 【控制獎項目 4 &amp; 設計獎項目 1 — 執行效率與可靠性實測區（請填入實測值與整機照片）】：</strong>
+      啟用 <code>CachingThreshold = 0.05</code> 後，Control Hub 迴圈耗時由 <code>[18.5 ms]</code> 降至 <code>[6.8 ms]</code>（<code>[147 Hz]</code>）；模組化架構使跨賽季底層程式碼重用率達 <code>[85%+]</code>，現場更換馬達或調整自動路徑平均維護時間低於 <code>[3 分鐘]</code>。
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>FTC 2026–2027 Engineering Portfolio — Aligned with Control Award (Table 6-8) &amp; Design Award (Table 6-9)</span>
+    <span>Package: org.firstinspires.ftc.teamcode.arch.op &amp; _2027</span>
+    <span>Page 1 / 3</span>
+  </div>
+</div>
+
+<!-- ===================================================================== -->
+<!-- PAGE 2: COAXIAL SWERVE, PINPOINT ODOMETRY, PEDRO PATHING & LIMELIGHT  -->
+<!-- ===================================================================== -->
+<div class="page">
+  <div>
+    <div class="page-header">
+      <div class="header-left">
+        <div class="team-badge">FTC #XXXX [填入隊號]</div>
+        <div class="header-titles">
+          <h1>底盤功能設計與外部回饋導航：同軸舵輪、Pinpoint 與視覺</h1>
+          <p>Functional Drivetrain Design &amp; External Feedback: Coaxial Swerve, Pinpoint &amp; Limelight 3A</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="award-tag teal">CONTROL (1–5) &amp; DESIGN AWARD (1, 3, 4, 5)</div>
+        <div class="page-num">Page 2 of 3 | 2026–2027 Season</div>
+      </div>
+    </div>
+
+    <!-- Section 1: Coaxial Swerve & Design Basis -->
+    <div class="grid-col-55-45" style="margin-bottom: 6px;">
+      <div class="card card-teal">
+        <div class="card-title">
+          <span><span class="crit-pill dsgn">設計獎 1 / 3 / 4</span><span class="crit-pill ctrl">控制獎 2 / 5</span>1. 四輪同軸舵輪設計基礎、非對稱前饋與易維護性</span>
+          <span class="tag tag-teal">pedroPathing.Constants</span>
+        </div>
+        <ul>
+          <li><strong>經過充分考慮的設計基礎 (設計獎項目 3 &amp; 4)</strong>：傳統麥克納姆輪在橫移時有 30% 分力互相抵消且易被對手推開；我們設計軸距 <code>210 × 296 mm</code> 之四輪獨立<strong>同軸舵輪（<code>CoaxialPod</code>）</strong>，每顆模組整合外部 <strong>Analog 絕對編碼器（<code>0.001~3.225V</code>）</strong>，上電即知絕對輪角，兼具美觀緊湊與 100% 向量推力。</li>
+          <li><strong>機電整合開發流程與非對稱前饋 (控制獎項目 5 &amp; 設計獎項目 2)</strong>：
+            <br>• <em>問題發現</em>：因上方搭載發射砲塔導致後軸正向力較大，初期四輪共用相同 PID 時，後輪轉向出現相位滯後。
+            <br>• <em>工程解法</em>：逐輪標定電壓邊界與零點偏移角（<code>43°, 0°, 32.03°, 300°</code>），並設計<strong>前後軸差異化靜摩擦前饋（<code>kP=0.3, kD=0.01</code>，前軸 <code>kFFront=0.0130</code> vs. 後軸 <code>kFBack=0.0190</code>）</strong>，完美平衡機體配重差異！</li>
+          <li><strong>比賽策略與高維護雙底盤抽象 (設計獎項目 1 &amp; 5)</strong>：定點投射時自動進入 <code>ZeroPowerBehavior.X_LOCK</code> 45° 菱形防禦姿態抵抗衝撞；且 <code>createFollower()</code> 封裝了 Swerve 與 Mecanum 雙底盤工廠模式，具備極高硬體容錯與可維護性。</li>
+        </ul>
+      </div>
+
+      <!-- SVG Diagram: Coaxial Swerve Geometry & X-Lock -->
+      <div class="card card-dark" style="display:flex; flex-direction:column; justify-content:center; align-items:center; padding: 5.5px;">
+        <div style="font-size:7.3pt; font-weight:800; color:#2dd4bf; margin-bottom:2px;">
+          ▼ 同軸舵輪緊湊幾何、類比絕對編碼器回饋與 X-Lock 姿態圖
+        </div>
+        <svg viewBox="0 0 340 152" width="100%" height="146" xmlns="http://www.w3.org/2000/svg">
+          <rect x="68" y="15" width="136" height="122" rx="8" fill="#1e293b" stroke="#64748b" stroke-width="1.5"/>
+          <line x1="136" y1="7" x2="136" y2="145" stroke="#475569" stroke-width="1" stroke-dasharray="3,2"/>
+          <line x1="56" y1="76" x2="216" y2="76" stroke="#475569" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="140" y="13" fill="#38bdf8" font-size="6.2" font-weight="bold">+X (8" Intake Front)</text>
+          <text x="136" y="132" fill="#94a3b8" font-size="6" text-anchor="middle">Width = 296 mm (±5.83")</text>
+          <text x="198" y="74" fill="#94a3b8" font-size="5.8" text-anchor="end">Length = 210 mm</text>
+
+          <circle cx="136" cy="56" r="5" fill="#f59e0b" stroke="#fff" stroke-width="1"/>
+          <text x="136" y="47" fill="#fbbf24" font-size="6" font-weight="bold" text-anchor="middle">Pinpoint (+60mm, +16.6mm)</text>
+
+          <!-- 4 Coaxial Swerve Pods -->
+          <circle cx="82" cy="30" r="11.5" fill="#0f766e" stroke="#2dd4bf" stroke-width="1.3"/>
+          <line x1="74" y1="38" x2="90" y2="22" stroke="#fff" stroke-width="2.5"/>
+          <text x="62" y="22" fill="#5eead4" font-size="6.2" font-weight="bold" text-anchor="end">LF Pod</text>
+          <text x="62" y="31" fill="#cbd5e1" font-size="5.5" text-anchor="end">Offset: 43°</text>
+          <text x="62" y="39" fill="#cbd5e1" font-size="5.5" text-anchor="end">0.004~3.225V</text>
+
+          <circle cx="190" cy="30" r="11.5" fill="#0f766e" stroke="#2dd4bf" stroke-width="1.3"/>
+          <line x1="182" y1="22" x2="198" y2="38" stroke="#fff" stroke-width="2.5"/>
+          <text x="210" y="22" fill="#5eead4" font-size="6.2" font-weight="bold">RF Pod</text>
+          <text x="210" y="31" fill="#cbd5e1" font-size="5.5">Offset: 0°</text>
+          <text x="210" y="39" fill="#cbd5e1" font-size="5.5">0.001~3.213V</text>
+
+          <circle cx="82" cy="121" r="11.5" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.3"/>
+          <line x1="74" y1="113" x2="90" y2="129" stroke="#fff" stroke-width="2.5"/>
+          <text x="62" y="115" fill="#93c5fd" font-size="6.2" font-weight="bold" text-anchor="end">LB Pod</text>
+          <text x="62" y="124" fill="#cbd5e1" font-size="5.5" text-anchor="end">Offset: 32.03°</text>
+          <text x="62" y="132" fill="#cbd5e1" font-size="5.5" text-anchor="end">0.004~3.218V</text>
+
+          <circle cx="190" cy="121" r="11.5" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.3"/>
+          <line x1="182" y1="129" x2="198" y2="113" stroke="#fff" stroke-width="2.5"/>
+          <text x="210" y="115" fill="#93c5fd" font-size="6.2" font-weight="bold">RB Pod</text>
+          <text x="210" y="124" fill="#cbd5e1" font-size="5.5">Offset: 300°</text>
+          <text x="210" y="132" fill="#cbd5e1" font-size="5.5">0.002~3.214V</text>
+
+          <rect x="258" y="15" width="78" height="122" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="1"/>
+          <text x="297" y="27" fill="#38bdf8" font-size="6.6" font-weight="bold" text-anchor="middle">閉迴路參數</text>
+          <text x="263" y="39" fill="#e2e8f0" font-size="5.7">• Max Vel: 64.19 in/s</text>
+          <text x="263" y="51" fill="#e2e8f0" font-size="5.7">• Steer kP: 0.30</text>
+          <text x="263" y="63" fill="#e2e8f0" font-size="5.7">• Steer kD: 0.01</text>
+          <text x="263" y="75" fill="#2dd4bf" font-size="5.7">• kFFront: 0.0130</text>
+          <text x="263" y="87" fill="#60a5fa" font-size="5.7">• kFBack: 0.0190</text>
+          <text x="263" y="101" fill="#fbbf24" font-size="5.7" font-weight="bold">• ZeroPower:</text>
+          <text x="268" y="111" fill="#fbbf24" font-size="5.7">X_LOCK 防禦鎖定</text>
+          <text x="263" y="125" fill="#94a3b8" font-size="5.4">• Footprint: 16"×16"</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Section 2: Pinpoint Odometry & Game Strategy Alignment -->
+    <div class="grid-col-45-55" style="margin-bottom: 6px;">
+      <!-- Left: SVG Field Map of AutoPose -->
+      <div class="card card-dark" style="display:flex; flex-direction:column; justify-content:center; align-items:center; padding: 5.5px;">
+        <div style="font-size:7.2pt; font-weight:800; color:#fbbf24; margin-bottom:2px;">
+          ▼ [設計獎5] 比賽策略路徑規劃與紅藍聯盟自動鏡像圖
+        </div>
+        <svg viewBox="0 0 260 164" width="100%" height="156" xmlns="http://www.w3.org/2000/svg">
+          <rect x="12" y="5" width="154" height="154" fill="#1e293b" stroke="#94a3b8" stroke-width="1.5"/>
+          <line x1="89" y1="5" x2="89" y2="159" stroke="#475569" stroke-width="1" stroke-dasharray="2,2"/>
+          <line x1="12" y1="82" x2="166" y2="82" stroke="#475569" stroke-width="1" stroke-dasharray="2,2"/>
+
+          <circle cx="162" cy="9" r="4.5" fill="#ef4444"/>
+          <text x="154" y="19" fill="#fca5a5" font-size="5.6" font-weight="bold" text-anchor="end">corner.UP (72,72)</text>
+          <circle cx="16" cy="155" r="4.5" fill="#3b82f6"/>
+          <text x="24" y="151" fill="#93c5fd" font-size="5.6" font-weight="bold">corner.DOWN (-72,-72)</text>
+
+          <circle cx="64" cy="11" r="3.5" fill="#2dd4bf"/>
+          <text x="64" y="22" fill="#5eead4" font-size="5.4" text-anchor="middle">pipe.UP(-24,72)</text>
+          <circle cx="18" cy="108" r="3.5" fill="#2dd4bf"/>
+          <text x="24" y="110" fill="#5eead4" font-size="5.4">pipe.LEFT(-72,-24)</text>
+          <circle cx="115" cy="153" r="3.5" fill="#2dd4bf"/>
+          <text x="115" y="145" fill="#5eead4" font-size="5.4" text-anchor="middle">pipe.DOWN(24,-72)</text>
+          <circle cx="160" cy="57" r="3.5" fill="#2dd4bf"/>
+          <text x="154" y="59" fill="#5eead4" font-size="5.4" text-anchor="end">pipe.RIGHT(72,24)</text>
+
+          <circle cx="102" cy="33" r="4" fill="#60a5fa" stroke="#fff" stroke-width="1"/>
+          <text x="108" y="35" fill="#93c5fd" font-size="5.4" font-weight="bold">Blue Shoot+ (12,48)</text>
+          <circle cx="76" cy="33" r="4" fill="#f87171" stroke="#fff" stroke-width="1"/>
+          <text x="70" y="35" fill="#fca5a5" font-size="5.4" font-weight="bold" text-anchor="end">Red Shoot+ (-12,48)</text>
+          <circle cx="102" cy="132" r="4" fill="#60a5fa" stroke="#fff" stroke-width="1"/>
+          <circle cx="76" cy="132" r="4" fill="#f87171" stroke="#fff" stroke-width="1"/>
+          <text x="89" y="124" fill="#fde047" font-size="5.4" text-anchor="middle">Shoot- (±12,-48)</text>
+
+          <path d="M 18 108 Q 65 81 102 33" fill="none" stroke="#60a5fa" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <path d="M 162 9 Q 130 27 102 33" fill="none" stroke="#38bdf8" stroke-width="1.5"/>
+          <path d="M 160 57 Q 115 51 76 33" fill="none" stroke="#f87171" stroke-width="1.5" stroke-dasharray="3,2"/>
+
+          <rect x="172" y="5" width="84" height="154" rx="4" fill="#0f172a" stroke="#475569" stroke-width="1"/>
+          <text x="214" y="18" fill="#fbbf24" font-size="6.3" font-weight="bold" text-anchor="middle">紅藍鏡像自動切換</text>
+          <text x="177" y="30" fill="#93c5fd" font-size="5.5" font-weight="bold">藍方 (Team.blue):</text>
+          <text x="177" y="39" fill="#cbd5e1" font-size="5.3">• UP_PIPE → LEFT</text>
+          <text x="177" y="48" fill="#cbd5e1" font-size="5.3">• CLOSE → UP(72,72)</text>
+          <text x="177" y="57" fill="#cbd5e1" font-size="5.3">• Shoot+ → (12, 48)</text>
+          <text x="177" y="71" fill="#fca5a5" font-size="5.5" font-weight="bold">紅方 (Team.red):</text>
+          <text x="177" y="80" fill="#cbd5e1" font-size="5.3">• UP_PIPE → RIGHT</text>
+          <text x="177" y="89" fill="#cbd5e1" font-size="5.3">• CLOSE → DOWN</text>
+          <text x="177" y="98" fill="#cbd5e1" font-size="5.3">• Shoot+ → (-12, 48)</text>
+          <text x="177" y="113" fill="#2dd4bf" font-size="5.5" font-weight="bold">動態起點容錯:</text>
+          <text x="177" y="123" fill="#cbd5e1" font-size="5.2">FollowState.Init() 即時</text>
+          <text x="177" y="132" fill="#cbd5e1" font-size="5.2">讀取當下真實位置作為</text>
+          <text x="177" y="141" fill="#cbd5e1" font-size="5.2">起點，消除前段誤差！</text>
+        </svg>
+      </div>
+
+      <!-- Right: Pinpoint & Strategy -->
+      <div class="card card-accent">
+        <div class="card-title">
+          <span><span class="crit-pill ctrl">控制獎 2 / 3 / 4</span><span class="crit-pill dsgn">設計獎 1 / 5</span>2. Pinpoint 雙輪里程計回饋與比賽策略一致性</span>
+          <span class="tag tag-blue">FollowState &amp; AutoPose</span>
+        </div>
+        <ul>
+          <li><strong>外部回饋感測器 (控制獎項目 2 — goBILDA Pinpoint)</strong>：採用四連桿懸吊接地之 <code>goBILDA 4-BAR POD</code> 正交雙編碼器與 IMU，精確補償安裝偏心（<code>+60.0 mm, +16.6 mm</code>），結合三組濾波 PIDF 與實測車重 <code>13.732 kg</code> 之過彎向心力前饋（<code>centripetalScaling = 0.00003</code>），消除高速過彎側滑。</li>
+          <li><strong>與比賽計劃高度一致之自動化設計 (設計獎項目 5 &amp; 控制獎項目 3)</strong>：
+            <br>① <strong>紅藍聯盟鏡像單一維護 (<code>AutoPose</code>)</strong>：只需編寫一套自動策略，系統自動依據 <code>OpObject.team</code> 映射紅藍方對稱取球點（<code>toPipe</code>、<code>toCorner</code>）與射擊點（<code>toShoot</code>），大幅降低賽前維護錯誤率（設計獎項目 1）；
+            <br>② <strong>動態起點容錯 (<code>FollowState(Pose)</code>)</strong>：每段路徑於 <code>Init()</code> 啟動瞬間才抓取當下真實座標建構 <code>BezierLine</code>，即使前段遭碰撞亦能自動修正軌跡；
+            <br>③ <strong>Auto → TeleOp 策略接軌</strong>：<code>AutoBase.savePose</code> 自動將終點座標交接給手動階段，開局即刻啟動全場自動瞄準。</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Section 3: Limelight 3A External Vision Feedback & Reliability -->
+    <div class="card" style="margin-bottom: 5px;">
+      <div class="card-title">
+        <span><span class="crit-pill ctrl">控制獎 2 / 4</span><span class="crit-pill dsgn">設計獎 4</span>3. Limelight 3A 100Hz 外部視覺回饋與資料新鮮度可靠性驗證</span>
+        <span class="tag tag-amber">subsystem.limelight.Limelight</span>
+      </div>
+      <div class="grid-2">
+        <div>
+          <ul>
+            <li><strong>外部視覺回饋 (控制獎項目 2)</strong>：設定 <code>setPollRateHz(100)</code> 提供 10ms 級超低延遲回饋：
+              <br>• <strong>Pipeline 0 (AprilTag MegaTag 3D)</strong>：呼叫 <code>getBotpose()</code> 取得場地絕對 3D 座標 <code>Pose(x, y)</code>，校正長時間激烈碰撞後的里程計微小漂移；
+              <br>• <strong>Pipeline 2 (Custom Python)</strong>：支援 8 維雙向陣列交換客製化 OpenCV 特徵。</li>
+          </ul>
+        </div>
+        <div>
+          <ul>
+            <li><strong>可靠性驗證機制 — 過期殘影過濾 (控制獎項目 4)</strong>：
+              在 <strong>Pipeline 1 (Neural Detector AI 物件辨識)</strong> 中，為防止鏡頭被短暫遮擋時回傳舊座標造成誤追殘影，我們設計了 <strong><code>isConfidence()</code> 時效性防護門檻</strong>：嚴格檢查封包延遲 <code>getStaleness() &lt; 100 ms</code>（<code>DETECTOR_TOLERANCE_MILLISECOND</code>），確保只採信新鮮可靠之視覺回饋！</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Callout -->
+    <div class="todo-box">
+      <strong>📌 【控制獎項目 4 &amp; 設計獎項目 3 — 導航精度與底盤美觀特寫補充區（請填入實測值與照片）】：</strong>
+      連續 5 次自動階段測試中，Pinpoint 終點重複定位誤差 <code>[±0.45 in]</code>、航向誤差 <code>[±0.8°]</code>；加入 <code>isConfidence() (&lt;100ms)</code> 後視覺誤判率降至 <code>[0%]</code>。（建議於此處貼入一張同軸舵輪與整潔走線特寫照，展示設計獎項目 3 之功能與美觀設計）。
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>FTC 2026–2027 Engineering Portfolio — Coaxial Swerve, Odometry &amp; Vision Reliability</span>
+    <span>goBILDA Pinpoint + 4x Analog Encoders + Limelight 3A (100Hz)</span>
+    <span>Page 2 / 3</span>
+  </div>
+</div>
+
+<!-- ===================================================================== -->
+<!-- PAGE 3: 5-STAGE BALLISTICS, DISTINCTIVE TURRET DESIGN & 2-PARAM SOP   -->
+<!-- ===================================================================== -->
+<div class="page">
+  <div>
+    <div class="page-header">
+      <div class="header-left">
+        <div class="team-badge">FTC #XXXX [填入隊號]</div>
+        <div class="header-titles">
+          <h1>與眾不同之 355° 單飛輪砲塔設計、五階段閉迴路彈道與 5 分鐘維護 SOP</h1>
+          <p>Distinctive 355° Hooded Turret Design, 5-Stage Closed-Loop Ballistics &amp; 5-Min Calibration SOP</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="award-tag amber">CONTROL (1C, 2–5) &amp; DESIGN AWARD (1, 2, 3, 4, 5)</div>
+        <div class="page-num">Page 3 of 3 | 2026–2027 Season</div>
+      </div>
+    </div>
+
+    <!-- Top Row: 2 Visual SVG Diagrams -->
+    <div class="grid-col-55-45" style="margin-bottom: 5.5px;">
+      <!-- Left SVG: Parabolic Trajectory, Virtual Target B', Front Wall Clearance -->
+      <div class="card card-dark" style="padding: 5px;">
+        <div style="font-size:7.2pt; font-weight:800; color:#38bdf8; margin-bottom:2px;">
+          ▼ [控制1C/項目4] 虛擬目標阻力補償 (B→B')、防撞框安全檢查 (d_fw) 與三區段仰角圖
+        </div>
+        <svg viewBox="0 0 375 126" width="100%" height="120" xmlns="http://www.w3.org/2000/svg">
+          <line x1="20" y1="110" x2="365" y2="110" stroke="#475569" stroke-width="1.5"/>
+          <line x1="30" y1="8" x2="30" y2="110" stroke="#475569" stroke-width="1"/>
+
+          <rect x="18" y="92" width="26" height="18" rx="3" fill="#2563eb" stroke="#93c5fd" stroke-width="1.2"/>
+          <text x="31" y="104" fill="#fff" font-size="6.2" font-weight="bold" text-anchor="middle">Turret</text>
+          <line x1="44" y1="101" x2="78" y2="101" stroke="#34d399" stroke-width="1.6"/>
+          <text x="68" y="96" fill="#34d399" font-size="6" font-weight="bold">V_robot·t_fly</text>
+
+          <text x="75" y="121" fill="#cbd5e1" font-size="5.4" text-anchor="middle">近距 (d ≤ d_min: 60°)</text>
+          <text x="165" y="121" fill="#93c5fd" font-size="5.4" text-anchor="middle">中距線性插值 (60°→36°)</text>
+          <text x="275" y="121" fill="#fbbf24" font-size="5.4" text-anchor="middle">遠距理想入網角 (d ≥ d_cross: θ_inc=60°)</text>
+
+          <line x1="238" y1="40" x2="238" y2="110" stroke="#f43f5e" stroke-width="2.5"/>
+          <circle cx="238" cy="40" r="3" fill="#f43f5e"/>
+          <text x="232" y="34" fill="#fda4af" font-size="5.9" font-weight="bold" text-anchor="end">目標前牆 (d_fw)</text>
+          <text x="232" y="49" fill="#fda4af" font-size="5.4" text-anchor="end">y(d_fw) ≥ H + 1.0"</text>
+
+          <circle cx="282" cy="44" r="4.5" fill="#fbbf24" stroke="#fff" stroke-width="1.2"/>
+          <text x="282" y="58" fill="#fbbf24" font-size="6.3" font-weight="bold" text-anchor="middle">真實目標 B (d, H=53.5")</text>
+
+          <circle cx="336" cy="22" r="4.5" fill="#38bdf8" stroke="#fff" stroke-width="1.2"/>
+          <text x="322" y="12" fill="#38bdf8" font-size="6.3" font-weight="bold" text-anchor="middle">虛擬目標 B' (d', h')</text>
+
+          <line x1="288" y1="41" x2="330" y2="25" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="3,2"/>
+          <text x="326" y="40" fill="#93c5fd" font-size="5.5">+k_loss·d²</text>
+
+          <path d="M 34 92 Q 190 -18 336 22" fill="none" stroke="#38bdf8" stroke-width="1.3" stroke-dasharray="4,3"/>
+          <text x="148" y="16" fill="#38bdf8" font-size="5.9">無阻力理論拋物線 (瞄準虛擬點 B')</text>
+
+          <path d="M 34 92 Q 178 -2 282 44" fill="none" stroke="#fbbf24" stroke-width="2.2"/>
+          <text x="160" y="38" fill="#fbbf24" font-size="6.1" font-weight="bold">實際受阻軌跡 (精準以 θ_inc=60° 落入 B)</text>
+        </svg>
+      </div>
+
+      <!-- Right SVG: Closed-Loop Control & 7-Pt Moving Average Filter -->
+      <div class="card card-dark" style="padding: 5px;">
+        <div style="font-size:7.2pt; font-weight:800; color:#34d399; margin-bottom:2px;">
+          ▼ [控制2/設計3] 外部轉速回饋仰角微調與 7 點移動平均濾波防抖動圖
+        </div>
+        <svg viewBox="0 0 310 126" width="100%" height="120" xmlns="http://www.w3.org/2000/svg">
+          <rect x="6" y="3" width="82" height="24" rx="3" fill="#1e293b" stroke="#38bdf8" stroke-width="1"/>
+          <text x="47" y="13" fill="#fff" font-size="6.1" font-weight="bold" text-anchor="middle">前饋解算器 (Stage IV)</text>
+          <text x="47" y="22" fill="#93c5fd" font-size="5.3" text-anchor="middle">計算 v_ideal → targetRPM</text>
+
+          <line x1="88" y1="15" x2="106" y2="15" stroke="#38bdf8" stroke-width="1.2"/>
+          <rect x="106" y="3" width="84" height="24" rx="3" fill="#0f766e" stroke="#2dd4bf" stroke-width="1"/>
+          <text x="148" y="13" fill="#fff" font-size="6.1" font-weight="bold" text-anchor="middle">飛輪編碼器外部回饋</text>
+          <text x="148" y="22" fill="#ccfbf1" font-size="5.3" text-anchor="middle">7-Pt Moving Avg 濾波</text>
+
+          <line x1="190" y1="15" x2="208" y2="15" stroke="#34d399" stroke-width="1.2"/>
+          <rect x="208" y="3" width="96" height="24" rx="3" fill="#b45309" stroke="#fbbf24" stroke-width="1"/>
+          <text x="256" y="13" fill="#fff" font-size="6.1" font-weight="bold" text-anchor="middle">反饋仰角補償 (Stage V)</text>
+          <text x="256" y="22" fill="#fef3c7" font-size="5.3" text-anchor="middle">由 actual_v 反解 θ_servo</text>
+
+          <rect x="6" y="33" width="298" height="88" rx="4" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+          <text x="14" y="45" fill="#e2e8f0" font-size="5.8" font-weight="bold">連發掉速時透過外部轉速回饋自動拉高伺服仰角補償示意 (RPM_BUFFER_SIZE = 7)</text>
+          <line x1="24" y1="109" x2="292" y2="109" stroke="#64748b" stroke-width="1"/>
+          <line x1="24" y1="51" x2="24" y2="109" stroke="#64748b" stroke-width="1"/>
+
+          <line x1="24" y1="65" x2="292" y2="65" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="288" y="61" fill="#38bdf8" font-size="5.3" text-anchor="end">Target RPM</text>
+
+          <polyline points="24,106 36,85 48,75 60,58 72,72 84,61 96,69 108,60 120,68 132,63 144,85 156,73 168,78 180,66 192,69 204,62 216,67 228,63 240,66 252,64 264,67 276,64 288,65" fill="none" stroke="#f43f5e" stroke-width="1" opacity="0.75"/>
+          <path d="M 24 106 Q 50 68 84 65 L 132 65 Q 148 79 175 69 Q 195 65 288 65" fill="none" stroke="#34d399" stroke-width="2"/>
+
+          <line x1="148" y1="77" x2="148" y2="95" stroke="#fbbf24" stroke-width="1"/>
+          <text x="152" y="93" fill="#fbbf24" font-size="5.4" font-weight="bold">連發瞬間掉速 → 反饋層即時反解二次方程拉高仰角 θ！</text>
+          <text x="32" y="104" fill="#f43f5e" font-size="5.3">── rawRPM (編碼器原始雜訊)</text>
+          <text x="122" y="104" fill="#34d399" font-size="5.3" font-weight="bold">━━ actualRPM (7點移動平均)</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Section 1: 5-Stage Mathematical Pipeline + Distinctive Turret Design -->
+    <div class="card" style="margin-bottom: 5.5px;">
+      <div class="card-title">
+        <span><span class="crit-pill dsgn">設計獎 3 / 4 / 5</span><span class="crit-pill ctrl">控制獎 1C / 2 / 4</span>1. 與眾不同之背向 355° 單飛輪砲塔設計與五階段閉迴路彈道</span>
+        <span class="tag tag-blue">ShooterCalculator, Flywheel &amp; Yaw</span>
+      </div>
+
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">階段 I</div>
+          <div style="flex:1;">
+            <strong>【設計獎 3 &amp; 4：與眾不同之單飛輪弧形導罩設計】與物理轉換</strong>：我們捨棄笨重的雙飛輪，採用<strong>單飛輪（半徑 <code>2.0 in</code>）+ 可調仰角弧形導罩（Hood，伺服角 <code>30°~54°</code>）</strong>，大幅降低砲塔轉動慣量。滾動出膛理論初速為飛輪表面切線速度之一半（<code>v_surface / 2</code>），乘上<strong>能量轉換率 η (<code>0.8472</code>)</strong> 並疊加雙馬達差速送料初速 <code>v_intake = 3.0 in/s</code>：<code>v_exit = ((RPM/60)*π*R_fw) * η + v_intake</code>。
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-num teal">階段 II</div>
+          <div style="flex:1;">
+            <strong>【設計獎 5：支援「邊吸邊射」策略】砲塔偏心旋轉、移動射擊補償與防擺動遲滯</strong>：
+            將機器人中心座標透過旋轉矩陣轉換至砲塔出球點（<code>currentPoseToTurretPose</code>），由垂直分速度 <code>v_z = v·cos(θ_servo)</code> 解算滯空時間 <code>t_fly</code>，並引入 <strong>Pinpoint 外部速度向量回饋 <code>V_robot</code></strong> 平移目標點：<code>P_predict = P_target - V_robot * t_fly</code>，讓操作手無須停頓即可在移動中精準得分！同時設定 <code>|Y| &gt; 24.0 in</code> 遲滯區間（Hysteresis），防止跨中線時砲塔劇烈擺動。
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-num amber">階段 III</div>
+          <div style="flex:1;">
+            <strong>【設計獎 1：簡單高效可執行】虛擬目標座標變換補償空氣阻力與 Magnus 下墜</strong>：
+            為避免在嵌入式處理器上執行高耗時的數值微分積分，我們以極簡優雅之<strong>虛擬目標平移法</strong>，透過單一參數 <strong>能量損失率 k_loss (<code>0.0002</code>)</strong> 將目標距離與高度隨距離平方延展：<code>d' = d * (1 + k_loss * d)</code>，<code>h' = h + k_loss * d²</code>，以 <code>O(1)</code> 運算複雜度完美抵消遠距動能損耗。
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-num rose">階段 IV</div>
+          <div style="flex:1;">
+            <strong>前饋 60° 理想入網角初速與【控制獎 4 可靠性：<code>frontWallDistance</code> 防撞框演算法】</strong>：
+            由 <code>tan(θ_launch) = tan(60°) + 2h'/d'</code> 解算遠/中/近三區段平滑仰角與前饋初速 <code>v_ideal</code>。針對角落目標 45° 前緣牆面（距角落 <code>18.3/√2 ≈ 12.94 in</code>），即時計算軌跡於前牆處之高度 <code>ballHeightAt(d_fw)</code>；若低於安全高度 <code>H + 1.0"</code>，自動以 <code>+1.0°</code> 步進調陡仰角重算初速，<strong>100% 防止球擦撞目標前緣</strong>！
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-num purple">階段 V</div>
+          <div style="flex:1;">
+            <strong>外部轉速回饋仰角微調、7 點移動平均濾波與背向 355° 砲塔追蹤 (<code>Yaw.java</code>)</strong>：
+            以 <code>RPM_BUFFER_SIZE = 7</code> 環形緩衝區濾除編碼器量化雜訊保護伺服馬達齒輪，再將真實初速 <code>actualVelocityInPerSec</code> 代入拋物線二次方程 <code>A·tan²θ - B·tanθ + C = 0</code> 即時反解補償仰角（連發掉速時自動拉高仰角確保命中）。同時為避開前方吸球機構，將砲塔零點設於機體正後方（<code>-180°</code> 偏移、<code>0.00395/deg</code>），達成 <code>±177.5°</code>（共 <code>355°</code>）全向無死角追蹤。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Row: Engineering Design Process (Criterion 5) + 2-Parameter SOP (Design 1 & Control 3) -->
+    <div class="grid-col-55-45">
+      <div class="card card-purple">
+        <div class="card-title">
+          <span><span class="crit-pill eng">控制獎 5</span><span class="crit-pill dsgn">設計獎 2</span>2. 射控系統詳細開發過程與學到的經驗 (Iterative Process)</span>
+          <span class="tag tag-purple">v1 → v2 → v3 Evolution</span>
+        </div>
+        <ul>
+          <li><strong>第一代 (v1 固定點查表法)</strong>：僅能在固定位置射擊，違反隊伍「全場高速游擊」之比賽策略，且更換球體後需耗時 30 分鐘重新測表，極難維護。</li>
+          <li><strong>第二代 (v2 純真空拋物線 + 原始轉速回饋)</strong>：雖可全場解算，但遠距（&gt;72"）受空氣阻力影響總是落於框前；且直接以未濾波 RPM 反解仰角造成伺服馬達高頻抖動發熱。</li>
+          <li><strong>第三代 (v3 五階段雙參數模型 + 7 點濾波閉迴路)</strong>：引入虛擬目標平移（<code>k_loss</code>）、7 點移動平均濾波與防撞框檢查。
+            <br><strong>💡 學到的經驗 (Lessons Learned)</strong>：優秀的機電設計必須「以演算法彌補物理非理想性，並以濾波保護硬體機構」；將非線性阻力拆解為正交雙參數，是同時達成高命中率與高維護性的關鍵！</li>
+        </ul>
+      </div>
+
+      <div class="card card-amber">
+        <div class="card-title">
+          <span><span class="crit-pill dsgn">設計獎 1 (極易維護)</span><span class="crit-pill rec">控制獎 3 / 4</span>3. 雙參數 5 分鐘現場校準維護 SOP</span>
+          <span class="tag tag-amber">Shooter.md</span>
+        </div>
+        <ul>
+          <li><strong>SOP 步驟 1（近距 24 in 無阻力測試 → 求 <code>ENERGY_CONVERSION_RATE</code>）</strong>：固定仰角 <code>45°</code> 微調至空心入網，呼叫內建 <code>calibrateEnergyConversionRate(24, H, perfect_rpm)</code> 自動求得純硬體傳輸效率（實測值：<code>0.8472</code>）。</li>
+          <li><strong>SOP 步驟 2（遠距 ≥72 in 阻力測試 → 求 <code>ENERGY_LOSS_RATE</code>）</strong>：退至遠距開啟全自動迴圈，若球提早下墜則於 Dashboard 每次遞增 <code>+0.001</code> 至完美命中（實測值：<code>0.0002</code>），<strong>現場更換飛輪或球體僅需 5 分鐘即可完成全場域校準</strong>！</li>
+        </ul>
+        <div class="todo-box" style="margin-top:2.5px;">
+          <strong>📌 【控制獎4 / 設計獎5 實測數據】：</strong>
+          近距 24" 命中率 <code>[98%]</code> | 遠距 96" 由 v2 <code>[42%]</code> 提升至 v3 <code>[90%]</code> | 移動射擊命中率 <code>[85%]</code>（請貼入砲塔特寫照）。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span>FTC 2026–2027 Engineering Portfolio — Dual-Aligned for Control Award &amp; Design Award</span>
+    <span>Two-Parameter Fit: ENERGY_CONVERSION_RATE = 0.8472 | ENERGY_LOSS_RATE = 0.0002</span>
+    <span>Page 3 / 3</span>
+  </div>
+</div>
+
+</body>
+</html>

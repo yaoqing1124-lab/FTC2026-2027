@@ -23,10 +23,16 @@ public class AutoPose {
         public  final static Pose POSITIVE = (OpObject.team == Team.blue) ? new Pose(12, 48,  Math.toRadians(270)) : new Pose(-12, 48,  Math.toRadians(270));
         public  final static Pose NEGATIVE = (OpObject.team == Team.blue) ? new Pose(12, -48, Math.toRadians(90))  : new Pose(-12, -48, Math.toRadians(90));
     }
-    public static class corner{
-        private final static Pose UP    = new Pose( 72, 72,  Math.toRadians(90));
-        private final static Pose DOWN  = new Pose(-72, -72, Math.toRadians(270));
-        public  final static Pose CLOSE = (OpObject.team == Team.blue) ? corner.UP   : corner.DOWN;
-        public  final static Pose FAR   = (OpObject.team == Team.blue) ? corner.DOWN : corner.UP;
+    public static class corner {
+        private final static Pose UP = new Pose(72, 72, Math.toRadians(90));
+        private final static Pose DOWN = new Pose(-72, -72, Math.toRadians(270));
+        public final static Pose CLOSE = (OpObject.team == Team.blue) ? corner.UP : corner.DOWN;
+        public final static Pose FAR = (OpObject.team == Team.blue) ? corner.DOWN : corner.UP;
+    }
+    public static class start{
+
+    }
+    public static class end{
+
     }
 }

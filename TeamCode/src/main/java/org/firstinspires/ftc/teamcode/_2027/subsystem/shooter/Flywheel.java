@@ -79,7 +79,7 @@ public class Flywheel extends OpBehavior {
     Pose aimTarget;
     @Override
     public void Loop() {
-        //設定瞄準座標 防止在 y = 0 附近一直擺動
+        //設定瞄準座標 防止在 y = 0 附近一直擺動(預設+-一張地墊不改變目標)
         double thershold = 24.0;
         switch (OpObject.team){
             case blue:
@@ -149,13 +149,14 @@ public class Flywheel extends OpBehavior {
         m_lastTargetVelocity = targetVelocityInPerSec;
 
         double targetPitchDeg = ShooterCalculator.calculateRealPitchAngle(
-                current_position, virtualTarget, targetVelocityInPerSec);
-
-
+                current_position, virtualTarget, actualVelocityInPerSec);
 
 
         update_pitch(targetPitchDeg);
         update_flyWheel(m_flyWheel, m_flywheelController, targetRPM);
+
+
+        m_lastTargetPitch = targetPitchDeg;
     }
 
     @Override

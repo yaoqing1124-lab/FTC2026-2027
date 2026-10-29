@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode._2027.opmode.auto.util;
 import com.pedropathing.geometry.BezierCurve;
 
 import org.firstinspires.ftc.teamcode._2027.state.FollowState;
+import org.firstinspires.ftc.teamcode._2027.subsystem.limelight.Limelight;
 import org.firstinspires.ftc.teamcode.arch.op.behavior.statemachine.LogicSwitch;
 import org.firstinspires.ftc.teamcode._2027.subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.arch.op.behavior.statemachine.StateObject;
@@ -24,22 +25,10 @@ public class AutoState {
 //        public toPipe(Pose start){
 //            toPipe.start = start;
 //        }
-        public static StateObject UP    =  new FollowState(Drivetrain.get_Follower().pathBuilder() //如果不能用FollowState.currentPosee改成調用toPipe.start
-                .addPath(new BezierCurve(FollowState.currentPose, AutoPose.pipe.UP_PIPE))
-                .setLinearHeadingInterpolation(FollowState.currentPose.getHeading(), AutoPose.pipe.UP_PIPE.getHeading())
-                .build());
-        public static StateObject LEFT  =  new FollowState(Drivetrain.get_Follower().pathBuilder()
-                .addPath(new BezierCurve(FollowState.currentPose, AutoPose.pipe.LEFT_PIPE))
-                .setLinearHeadingInterpolation(FollowState.currentPose.getHeading(), AutoPose.pipe.LEFT_PIPE.getHeading())
-                .build());
-        public static StateObject DOWN  =  new FollowState(Drivetrain.get_Follower().pathBuilder()
-                .addPath(new BezierCurve(FollowState.currentPose, AutoPose.pipe.DOWN_PIPE))
-                .setLinearHeadingInterpolation(FollowState.currentPose.getHeading(), AutoPose.pipe.DOWN_PIPE.getHeading())
-                .build());
-        public static StateObject RIGHT =  new FollowState(Drivetrain.get_Follower().pathBuilder()
-                .addPath(new BezierCurve(FollowState.currentPose, AutoPose.pipe.RIGHT_PIPE))
-                .setLinearHeadingInterpolation(FollowState.currentPose.getHeading(), AutoPose.pipe.RIGHT_PIPE.getHeading())
-                .build());
+        public static StateObject UP()   { return new FollowState(AutoPose.pipe.UP_PIPE);}
+        public static StateObject LEFT() { return new FollowState(AutoPose.pipe.LEFT_PIPE);}
+        public static StateObject DOWN() { return new FollowState(AutoPose.pipe.DOWN_PIPE);}
+        public static StateObject RIGHT(){ return new FollowState(AutoPose.pipe.RIGHT_PIPE);}
     }
     // ========================================================================================================================
     // Drive to corner flower
@@ -47,14 +36,8 @@ public class AutoState {
     // FAR   : 距離操作者較遠的角落flower
     // ========================================================================================================================
     public static class toCorner{
-        public static StateObject CLOSE = new FollowState(Drivetrain.get_Follower().pathBuilder()
-                .addPath(new BezierCurve(FollowState.currentPose, AutoPose.corner.CLOSE))
-                .setLinearHeadingInterpolation(FollowState.currentPose.getHeading(), AutoPose.corner.CLOSE.getHeading())
-                .build());
-        public static StateObject FAR   = new FollowState(Drivetrain.get_Follower().pathBuilder()
-                .addPath(new BezierCurve(FollowState.currentPose, AutoPose.corner.FAR))
-                .setLinearHeadingInterpolation(FollowState.currentPose.getHeading(), AutoPose.corner.FAR.getHeading())
-                .build());
+        public static StateObject CLOSE() {return new FollowState(AutoPose.corner.CLOSE);}
+        public static StateObject FAR()   {return new FollowState(AutoPose.corner.FAR);}
     }
     // ========================================================================================================================
     // Auto wait time
@@ -69,13 +52,8 @@ public class AutoState {
     // Drive to shoot position
     // ex : StateObject.then(AutoState.toPipe.UP).then(new WaitForMillisecond(takeFlower)).then(AutoState.toShoot)
     // ========================================================================================================================
-    public static StateObject toShoot = new LogicSwitch(() -> isPositive,
-            new FollowState(Drivetrain.get_Follower().pathBuilder()         //判斷要去 y > 0 的那邊(true)
-                    .addPath(new BezierCurve(FollowState.currentPose, AutoPose.shoot.POSITIVE))
-                    .setLinearHeadingInterpolation(FollowState.currentPose.getHeading(), AutoPose.shoot.POSITIVE.getHeading())
-                    .build()),
-            new FollowState(Drivetrain.get_Follower().pathBuilder()         //判斷要去 y < 0 的那邊(false)
-                    .addPath(new BezierCurve(FollowState.currentPose, AutoPose.shoot.NEGATIVE))
-                    .setLinearHeadingInterpolation(FollowState.currentPose.getHeading(), AutoPose.shoot.NEGATIVE.getHeading())
-                    .build()));
+    public static StateObject toShoot(){ return new LogicSwitch(() -> Limelight.detector.get().targetName.equals("Positive"),
+            new FollowState(AutoPose.shoot.POSITIVE),
+            new FollowState(AutoPose.shoot.NEGATIVE));
+    }
 }

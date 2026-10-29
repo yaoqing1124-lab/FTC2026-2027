@@ -33,10 +33,11 @@ public abstract class OpObject extends OpMode {
     public final void init() {
         Debug.Log("status : init");
         try {
-            Class.forName("org.firstinspires.ftc.teamcode._2627.subsystem.Drivetrain");
-            Class.forName("org.firstinspires.ftc.teamcode._2627.subsystem.Intake");
-            Class.forName("org.firstinspires.ftc.teamcode._2627.subsystem.Trigger");
-            Class.forName("org.firstinspires.ftc.teamcode._2627.subsystem.shooter.Shooter");
+            Class.forName("org.firstinspires.ftc.teamcode._2027.subsystem.Drivetrain");
+            Class.forName("org.firstinspires.ftc.teamcode._2027.subsystem.Intake");
+            Class.forName("org.firstinspires.ftc.teamcode._2027.subsystem.shooter.Flywheel");
+            Class.forName("org.firstinspires.ftc.teamcode._2027.subsystem.shooter.Yaw");
+            Class.forName("org.firstinspires.ftc.teamcode._2027.subsystem.limelight.Limelight");
             Class.forName("org.firstinspires.ftc.teamcode.gc.utils.Debug");
         } catch (ClassNotFoundException ignored) {}
 
