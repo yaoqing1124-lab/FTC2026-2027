@@ -1,15 +1,16 @@
-package org.firstinspires.ftc.teamcode._2027.subsystem.shooter;
+package org.firstinspires.ftc.teamcode._2027.subsystem.shooter.small;
 
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode._2027.Config;
+import org.firstinspires.ftc.teamcode._2027.subsystem.shooter.ShooterPose;
 
-public class ShooterCalculator {
+public class SmallCalculator {
     /**
      * 從 Encoder Ticks 每秒轉換為 RPM
      */
     public static double TicksPerSecToRPM(double ticksPerSec) {
-        return (ticksPerSec / (Config.shooter.hardware.TICKS_PER_REVOLUTION * Config.shooter.hardware.GEAR_RATIO)) * 60.0;
+        return (ticksPerSec / (Config.shooter.small.hardware.TICKS_PER_REVOLUTION * Config.shooter.small.hardware.GEAR_RATIO)) * 60.0;
     }
 
     /**
@@ -21,18 +22,18 @@ public class ShooterCalculator {
      */
     public static double RPMToVelocity(double rpm) {
         double rps = rpm / 60.0;
-        double surfaceVelocity = rps * (2.0 * Math.PI * Config.shooter.hardware.FLYWHEEL_RADIUS_IN);
+        double surfaceVelocity = rps * (2.0 * Math.PI * Config.shooter.small.hardware.FLYWHEEL_RADIUS_IN);
         double theoreticalExitVelocity = surfaceVelocity / 2.0;
-        return theoreticalExitVelocity * Config.shooter.ENERGY_CONVERSION_RATE + Config.shooter.INTAKE_INITIAL_VELOCITY_IN_PER_SEC;
+        return theoreticalExitVelocity * Config.shooter.small.ENERGY_CONVERSION_RATE + Config.shooter.small.INTAKE_INITIAL_VELOCITY_IN_PER_SEC;
     }
     /**
      * 階段 I：物理層轉換 (初速 → RPM)
      * 將數學模型算出的目標線速度 (in/sec) 轉換回目標 RPM 供 PID 使用。
      */
     public static double VelocityToRPM(double velocity) {
-        double theoreticalExitVelocity = (velocity - Config.shooter.INTAKE_INITIAL_VELOCITY_IN_PER_SEC) / Config.shooter.ENERGY_CONVERSION_RATE;
+        double theoreticalExitVelocity = (velocity - Config.shooter.small.INTAKE_INITIAL_VELOCITY_IN_PER_SEC) / Config.shooter.small.ENERGY_CONVERSION_RATE;
         double requiredSurfaceVelocity = theoreticalExitVelocity * 2.0;
-        double rps = requiredSurfaceVelocity / (2.0 * Math.PI * Config.shooter.hardware.FLYWHEEL_RADIUS_IN);
+        double rps = requiredSurfaceVelocity / (2.0 * Math.PI * Config.shooter.small.hardware.FLYWHEEL_RADIUS_IN);
         return rps * 60.0;
     }
     /**
@@ -54,10 +55,10 @@ public class ShooterCalculator {
         if (denominator <= 0) {
             return 1.0;
         }
-        double ideal_velocity = Math.sqrt((Config.shooter.physical.G * Math.pow(distance_in, 2)) / denominator);
+        double ideal_velocity = Math.sqrt((Config.shooter.small.physical.G * Math.pow(distance_in, 2)) / denominator);
 
         double rps = perfect_rpm / 60.0;
-        double surfaceVelocity = rps * (2.0 * Math.PI * Config.shooter.hardware.FLYWHEEL_RADIUS_IN);
+        double surfaceVelocity = rps * (2.0 * Math.PI * Config.shooter.small.hardware.FLYWHEEL_RADIUS_IN);
         double theoreticalExitVelocity = surfaceVelocity / 2.0;
 
         return ideal_velocity / theoreticalExitVelocity;
@@ -75,8 +76,8 @@ public class ShooterCalculator {
     public static ShooterPose calculateVirtualTarget(ShooterPose current, ShooterPose realTarget) {
         double d = Math.hypot(realTarget.x - current.x, realTarget.y - current.y);
 
-        double virtual_d = d * (1.0 + Config.shooter.ENERGY_LOSS_RATE * d);
-        double virtual_h = (realTarget.z - current.z) + (Config.shooter.ENERGY_LOSS_RATE * Math.pow(d, 2));
+        double virtual_d = d * (1.0 + Config.shooter.small.ENERGY_LOSS_RATE * d);
+        double virtual_h = (realTarget.z - current.z) + (Config.shooter.small.ENERGY_LOSS_RATE * Math.pow(d, 2));
 
         double yaw_rad = Math.atan2(realTarget.y - current.y, realTarget.x - current.x);
         double virtual_x = current.x + virtual_d * Math.cos(yaw_rad);
@@ -105,8 +106,8 @@ public class ShooterCalculator {
         // Convert servo limits to physics angles (from horizontal):
         //   MIN_PITCH_SERVO (30°) → physics 60° (steepest physical shot)
         //   MAX_PITCH_SERVO (54°) → physics 36° (flattest physical shot)
-        double physics_steepest = 90.0 - Config.shooter.hardware.MIN_PITCH_ANGLE_DEG; // 60°
-        double physics_flattest  = 90.0 - Config.shooter.hardware.MAX_PITCH_ANGLE_DEG; // 36°
+        double physics_steepest = 90.0 - Config.shooter.small.hardware.MIN_PITCH_ANGLE_DEG; // 60°
+        double physics_flattest  = 90.0 - Config.shooter.small.hardware.MAX_PITCH_ANGLE_DEG; // 36°
 //        physics_steepest = Config.ShooterConfig.MIN_PITCH_ANGLE_DEG; // 60°
 //        physics_flattest  = Config.ShooterConfig.MAX_PITCH_ANGLE_DEG; // 36°
 
@@ -115,7 +116,7 @@ public class ShooterCalculator {
         // d_min: distance where physics_steepest barely reaches h
         //   → closer than d_min the servo physically cannot arc the ball over the lip
         double d_cross = 2.0 * h / (Math.tan(Math.toRadians(physics_steepest))
-                - Math.tan(Math.toRadians(Config.shooter.IDEAL_INCIDENT_ANGLE_DEG)));
+                - Math.tan(Math.toRadians(Config.shooter.small.IDEAL_INCIDENT_ANGLE_DEG)));
         double d_min   = h / Math.tan(Math.toRadians(physics_steepest));
 
         // Select launch angle in PHYSICS convention (from horizontal)
@@ -123,7 +124,7 @@ public class ShooterCalculator {
         if (d >= d_cross) {
             // Far range: exact ideal incident angle — servo is within range
             launchPhysicsDeg = incidentToLaunchAngle(
-                    Config.shooter.IDEAL_INCIDENT_ANGLE_DEG, d, h);
+                    Config.shooter.small.IDEAL_INCIDENT_ANGLE_DEG, d, h);
         } else if (d <= d_min) {
             // Too close — servo at steepest limit, ascending arc unavoidable
             launchPhysicsDeg = physics_steepest;
@@ -143,11 +144,11 @@ public class ShooterCalculator {
 
         double v_ideal;
         if (denominator > 0) {
-            v_ideal = Math.sqrt((Config.shooter.physical.G * Math.pow(d, 2)) / denominator);
+            v_ideal = Math.sqrt((Config.shooter.small.physical.G * Math.pow(d, 2)) / denominator);
         } else {
             v_ideal = lastVelocity;
         }
-        v_ideal = Math.min(v_ideal, Config.shooter.physical.MAX_VELOCITY_IN_PER_SEC);
+        v_ideal = Math.min(v_ideal, Config.shooter.small.physical.MAX_VELOCITY_IN_PER_SEC);
 
         // ── Front wall clearance check ────────────────────────────────────────
         // Goal corner: red at (144,144), blue at (0,144).
@@ -157,7 +158,7 @@ public class ShooterCalculator {
         double d_fw = frontWallDistance(current, virtualTarget);
         if (d_fw > 0 && d_fw < d) {
             double h_at_fw = ballHeightAt(d_fw, v_ideal, launchPhysicsDeg);
-            if (h_at_fw < h + Config.shooter.physical.FRONT_WALL_CLEARANCE_IN) {
+            if (h_at_fw < h + Config.shooter.small.physical.FRONT_WALL_CLEARANCE_IN) {
                 // Ball clips wall — step physics angle steeper 1° at a time until clearance met
                 double physicsAngle = launchPhysicsDeg;
                 for (int i = 0; i < 20 && physicsAngle < physics_steepest; i++) {
@@ -165,9 +166,9 @@ public class ShooterCalculator {
                     double theta2  = Math.toRadians(physicsAngle);
                     double denom2  = 2.0 * Math.pow(Math.cos(theta2), 2) * (d * Math.tan(theta2) - h);
                     if (denom2 <= 0) continue;
-                    double v2 = Math.sqrt(Config.shooter.physical.G * d * d / denom2);
-                    if (ballHeightAt(d_fw, v2, physicsAngle) >= h + Config.shooter.physical.FRONT_WALL_CLEARANCE_IN) {
-                        v_ideal = Math.min(v2, Config.shooter.physical.MAX_VELOCITY_IN_PER_SEC);
+                    double v2 = Math.sqrt(Config.shooter.small.physical.G * d * d / denom2);
+                    if (ballHeightAt(d_fw, v2, physicsAngle) >= h + Config.shooter.small.physical.FRONT_WALL_CLEARANCE_IN) {
+                        v_ideal = Math.min(v2, Config.shooter.small.physical.MAX_VELOCITY_IN_PER_SEC);
                         break;
                     }
                 }
@@ -202,17 +203,17 @@ public class ShooterCalculator {
      */
     public static double calculateRealPitchAngle(ShooterPose current, ShooterPose virtualTarget, double actual_velocity) {
         if (actual_velocity <= 0) {
-            return Config.shooter.hardware.MAX_PITCH_ANGLE_DEG;
+            return Config.shooter.small.hardware.MAX_PITCH_ANGLE_DEG;
         }
 
         double d = Math.hypot(virtualTarget.x - current.x, virtualTarget.y - current.y);
         double h = virtualTarget.z - current.z;
 
-        if (d < 1.0) return Config.shooter.hardware.MAX_PITCH_ANGLE_DEG;
+        if (d < 1.0) return Config.shooter.small.hardware.MAX_PITCH_ANGLE_DEG;
 
         // Solve: A·tan²θ - B·tanθ + C = 0   (θ in PHYSICS convention, from horizontal)
         // A = G·d² / (2·V²),  B = d,  C = h + A
-        double A = (Config.shooter.physical.G * Math.pow(d, 2)) / (2.0 * Math.pow(actual_velocity, 2));
+        double A = (Config.shooter.small.physical.G * Math.pow(d, 2)) / (2.0 * Math.pow(actual_velocity, 2));
         double B = d;
         double C = h + A;
 
@@ -220,7 +221,7 @@ public class ShooterCalculator {
 
         if (discriminant < 0) {
             // Velocity too low to reach target — return steepest servo angle
-            return Config.shooter.hardware.MAX_PITCH_ANGLE_DEG;
+            return Config.shooter.small.hardware.MAX_PITCH_ANGLE_DEG;
         }
 
         // Two physics solutions:
@@ -233,22 +234,22 @@ public class ShooterCalculator {
         double theta_low_physics = Math.toDegrees(Math.atan(tan_theta_low));
 
         // Physics bounds corresponding to servo [MIN_PITCH, MAX_PITCH]
-        double physics_flattest  = 90.0 - Config.shooter.hardware.MAX_PITCH_ANGLE_DEG; // 36°
-        double physics_steepest  = 90.0 - Config.shooter.hardware.MIN_PITCH_ANGLE_DEG; // 60°
+        double physics_flattest  = 90.0 - Config.shooter.small.hardware.MAX_PITCH_ANGLE_DEG; // 36°
+        double physics_steepest  = 90.0 - Config.shooter.small.hardware.MIN_PITCH_ANGLE_DEG; // 60°
 
         // Clamp physics angle, then convert to servo convention: servo = 90 - physics
         double selected_physics = Range.clip(theta_low_physics, physics_flattest, physics_steepest);
         double selected_servo   = 90.0 - selected_physics;
 
         // Apply manual offset and clamp to servo hardware range
-        selected_servo += Config.shooter.PITCH_OFFSET_DEG;
+        selected_servo += Config.shooter.small.PITCH_OFFSET_DEG;
         return Range.clip(selected_servo,
-                Config.shooter.hardware.MIN_PITCH_ANGLE_DEG,
-                Config.shooter.hardware.MAX_PITCH_ANGLE_DEG);
+                Config.shooter.small.hardware.MIN_PITCH_ANGLE_DEG,
+                Config.shooter.small.hardware.MAX_PITCH_ANGLE_DEG);
     }
 
     /**
-     * 偏航角 (Yaw) 計算
+     * 偏航角 (BigYaw) 計算
      * 根據當前位置與目標位置，計算所需的偏航角度 (°)，正值向右。
      */
     public static double calculateYaw(ShooterPose current, ShooterPose target) {
@@ -307,7 +308,7 @@ public class ShooterCalculator {
     private static double ballHeightAt(double x, double v, double physicsAngleDeg) {
         double theta = Math.toRadians(physicsAngleDeg);
         return x * Math.tan(theta)
-                - Config.shooter.physical.G * x * x
+                - Config.shooter.small.physical.G * x * x
                 / (2.0 * v * v * Math.pow(Math.cos(theta), 2));
     }
 }

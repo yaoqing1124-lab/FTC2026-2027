@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode._2027.subsystem.shooter;
+package org.firstinspires.ftc.teamcode._2027.subsystem.shooter.small;
 
 
 import com.pedropathing.follower.Follower;
@@ -6,7 +6,6 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.math.Vector;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
@@ -14,6 +13,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode._2027.Config;
 import org.firstinspires.ftc.teamcode._2027.subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode._2027.subsystem.Intake;
+import org.firstinspires.ftc.teamcode._2027.subsystem.shooter.ShooterPose;
 import org.firstinspires.ftc.teamcode._2027.util.Mode;
 import org.firstinspires.ftc.teamcode._2027.util.MotorConfig;
 import org.firstinspires.ftc.teamcode._2027.util.ServoConfig;
@@ -21,11 +21,11 @@ import org.firstinspires.ftc.teamcode._2027.util.Team;
 import org.firstinspires.ftc.teamcode.arch.op.OpBehavior;
 import org.firstinspires.ftc.teamcode.arch.op.OpObject;
 
-public class Flywheel extends OpBehavior {
-    private Flywheel(){}
-    private final static Flywheel m_instance;
+public class SmallFlywheel extends OpBehavior {
+    private SmallFlywheel(){}
+    private final static SmallFlywheel m_instance;
     static {
-        m_instance = new Flywheel();
+        m_instance = new SmallFlywheel();
         OpObject.RegisterGlobalBehavior(m_instance);
     }
 
@@ -44,7 +44,7 @@ public class Flywheel extends OpBehavior {
     private static DcMotorEx m_flyWheel;
     private static Servo m_pitch;
 
-    private final PIDFCoefficients m_flywheelController = Config.shooter.hardware.flywheelController;
+    private final PIDFCoefficients m_flywheelController = Config.shooter.small.hardware.flywheelController;
     private static Follower m_follower = null;
 
     private double m_lastTargetVelocity = 0;
@@ -55,7 +55,7 @@ public class Flywheel extends OpBehavior {
     private static boolean m_rpmBufferFull = false;
 
     public static boolean IsStable(){
-        return Math.abs(targetRPM - actualRPM) < Config.shooter.RPM_ERROR_THRESHOLD;
+        return Math.abs(targetRPM - actualRPM) < Config.shooter.small.RPM_ERROR_THRESHOLD;
     }
 
     @Override
@@ -73,7 +73,7 @@ public class Flywheel extends OpBehavior {
 
         target_position.x = aimTarget.getX();
         target_position.y = aimTarget.getY();
-        target_position.z = Config.shooter.physical.H;
+        target_position.z = Config.shooter.small.physical.H;
         resetPitch();
     }
     Pose aimTarget;
@@ -99,7 +99,7 @@ public class Flywheel extends OpBehavior {
         }
         target_position.x = aimTarget.getX();
         target_position.y = aimTarget.getY();
-        target_position.z = Config.shooter.physical.H;
+        target_position.z = Config.shooter.small.physical.H;
 
         Pose current_pose = m_follower.getPose();
         ShooterPose rawPose = new ShooterPose(
@@ -115,7 +115,7 @@ public class Flywheel extends OpBehavior {
         // --- Predict target (motion compensation) ---
         if(enablePredict){
             Vector rv = m_follower.getVelocity();
-            double ft = flytimeVertical(m_lastTargetVelocity, m_lastTargetPitch, Config.shooter.physical.H);
+            double ft = flytimeVertical(m_lastTargetVelocity, m_lastTargetPitch, Config.shooter.small.physical.H);
             predict_target_position.x = target_position.x - rv.getXComponent() * ft;
             predict_target_position.y = target_position.y - rv.getYComponent() * ft;
             predict_target_position.z = target_position.z;
@@ -126,7 +126,7 @@ public class Flywheel extends OpBehavior {
         }
 
         double rawRPM = (m_flyWheel != null)
-                ? ShooterCalculator.TicksPerSecToRPM(m_flyWheel.getVelocity())
+                ? SmallCalculator.TicksPerSecToRPM(m_flyWheel.getVelocity())
                 : 0;
         m_rpmBuffer[m_rpmBufferIdx] = rawRPM;
         m_rpmBufferIdx = (m_rpmBufferIdx + 1) % RPM_BUFFER_SIZE;
@@ -136,19 +136,19 @@ public class Flywheel extends OpBehavior {
         for (int i = 0; i < count; i++) sum += m_rpmBuffer[i];
         actualRPM = (count > 0) ? sum / count : rawRPM;
 
-        double actualVelocityInPerSec = ShooterCalculator.RPMToVelocity(actualRPM);
+        double actualVelocityInPerSec = SmallCalculator.RPMToVelocity(actualRPM);
 
-        ShooterPose virtualTarget = ShooterCalculator.calculateVirtualTarget(
+        ShooterPose virtualTarget = SmallCalculator.calculateVirtualTarget(
                 current_position, predict_target_position);
 
-        double targetVelocityInPerSec = ShooterCalculator.calculateIdealVelocity(
+        double targetVelocityInPerSec = SmallCalculator.calculateIdealVelocity(
                 current_position, virtualTarget, m_lastTargetVelocity);
-        targetRPM = ShooterCalculator.VelocityToRPM(targetVelocityInPerSec);
+        targetRPM = SmallCalculator.VelocityToRPM(targetVelocityInPerSec);
 
 
         m_lastTargetVelocity = targetVelocityInPerSec;
 
-        double targetPitchDeg = ShooterCalculator.calculateRealPitchAngle(
+        double targetPitchDeg = SmallCalculator.calculateRealPitchAngle(
                 current_position, virtualTarget, actualVelocityInPerSec);
 
 
@@ -184,7 +184,7 @@ public class Flywheel extends OpBehavior {
     }
     private void update_flyWheel(DcMotorEx motor, PIDFCoefficients controller, double targetRPM) {
         motor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, controller);
-        double targetVelocity = (targetRPM / 60) * Config.shooter.hardware.TICKS_PER_REVOLUTION;
+        double targetVelocity = (targetRPM / 60) * Config.shooter.small.hardware.TICKS_PER_REVOLUTION;
         motor.setVelocity(targetVelocity);
     }
 
@@ -202,8 +202,8 @@ public class Flywheel extends OpBehavior {
         double cosH = Math.cos(heading);
         double sinH = Math.sin(heading);
 
-        double fwd  = Config.shooter.TURRET_FORWARD_IN;
-        double left = Config.shooter.TURRET_LEFT_IN;
+        double fwd  = Config.shooter.small.TURRET_FORWARD_IN;
+        double left = Config.shooter.small.TURRET_LEFT_IN;
 
         // Rotate offset from robot frame into field frame
         // field_x += fwd*cos(h) - left*sin(h)
@@ -216,7 +216,7 @@ public class Flywheel extends OpBehavior {
     private double flytimeVertical(double v, double pitchDeg, double h) {
         // v in in/sec, h in inches, g in in/sec^2
         if (v <= 0) return 0;
-        double g = Config.shooter.physical.G;
+        double g = Config.shooter.small.physical.G;
         double vz = v * Math.cos(Math.toRadians(pitchDeg)); // servo convention: cos not sin
         double disc = vz * vz - 2.0 * g * h;
         if (disc < 0) return 0;

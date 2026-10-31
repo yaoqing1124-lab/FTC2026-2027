@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode._2027.opmode.auto.util.AutoBase;
 import org.firstinspires.ftc.teamcode._2027.subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode._2027.subsystem.Intake;
-import org.firstinspires.ftc.teamcode._2027.subsystem.shooter.Flywheel;
+import org.firstinspires.ftc.teamcode._2027.subsystem.shooter.small.SmallFlywheel;
 import org.firstinspires.ftc.teamcode._2027.util.Mode;
 import org.firstinspires.ftc.teamcode._2027.util.Team;
 import org.firstinspires.ftc.teamcode.arch.op.OpObject;
@@ -32,7 +32,7 @@ public class ManualControl extends OpObject {
     public void Start() {
         Drivetrain.get_Follower().setStartingPose(AutoBase.savePose);
         Drivetrain.get_Follower().startTeleOpDrive();
-        Flywheel.enablePredict = false;
+        SmallFlywheel.enablePredict = false;
     }
 
     @Override

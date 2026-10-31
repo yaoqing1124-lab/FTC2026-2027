@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode._2027.opmode.auto.util.AutoBase;
 import org.firstinspires.ftc.teamcode._2027.opmode.auto.util.AutoState;
-import org.firstinspires.ftc.teamcode._2027.state.FollowState;
 import org.firstinspires.ftc.teamcode._2027.state.Shoot;
 import org.firstinspires.ftc.teamcode._2027.util.Team;
 import org.firstinspires.ftc.teamcode.arch.op.behavior.statemachine.StateObject;
