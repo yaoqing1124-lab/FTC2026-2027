@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.arch.op.behavior.statemachine.StateObject;
 
 
 public abstract class AutoBase extends OpObject {
-    public static Pose savePose;
+    public static Pose savePose = AutoPose.start.START;
     protected Follower follower;
     protected ElapsedTime timer = new ElapsedTime();
     protected StateMachine stateMachine = new StateMachine();
@@ -38,6 +38,9 @@ public abstract class AutoBase extends OpObject {
         entryState = setEntryState();
         timer.reset();
         follower = Drivetrain.get_Follower();
+        if (follower != null) {
+            follower.setStartingPose(AutoPose.start.START);
+        }
         AddBehavior(stateMachine);
 //        RegisterGlobalBehavior(stateMachine);
         setStateChain(entryState);
@@ -52,8 +55,10 @@ public abstract class AutoBase extends OpObject {
     public void Stop() {
         stateMachine = null;
         timer = null;
-        savePose = follower.getPose();
-        follower.breakFollowing();
+        if (follower != null) {
+            savePose = follower.getPose();
+            follower.breakFollowing();
+        }
         follower = null;
     }
 

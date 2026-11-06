@@ -34,10 +34,8 @@ public abstract class OpObject extends OpMode {
         try {
             Class.forName("org.firstinspires.ftc.teamcode._2027.subsystem.Drivetrain");
             Class.forName("org.firstinspires.ftc.teamcode._2027.subsystem.Intake");
-            Class.forName("org.firstinspires.ftc.teamcode._2027.subsystem.shooter.small.SmallFlywheel");
-            Class.forName("org.firstinspires.ftc.teamcode._2027.subsystem.shooter.small.SmallYaw");
+            Class.forName("org.firstinspires.ftc.teamcode._2027.subsystem.shooter.Shooter");
             Class.forName("org.firstinspires.ftc.teamcode._2027.subsystem.limelight.Limelight");
-            Class.forName("org.firstinspires.ftc.teamcode.gc.utils.Debug");
         } catch (ClassNotFoundException ignored) {}
 
         Init();

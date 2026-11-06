@@ -54,11 +54,12 @@ public class Constants {
 
     public static SwerveConstants swerveConstants = new SwerveConstants()
             .velocity(64.1879440668061)
-            .zeroPowerBehavior(SwerveConstants.ZeroPowerBehavior.X_LOCK)
+            .zeroPowerBehavior(SwerveConstants.ZeroPowerBehavior.IGNORE_ANGLE_CHANGES)
             .useBrakeModeInTeleOp(true);
 
-    private static double kP = 0.3;
+    private static double kP = 0.1;
     private static double kD = 0.01;
+    private static double kI = 0.0001;
     private static double kFFront = 0.0130;
     private static double kFBack = 0.0190;
 
@@ -67,41 +68,41 @@ public class Constants {
 
     private static CoaxialPod leftFront(HardwareMap hardwareMap) {
         CoaxialPod pod = new CoaxialPod(hardwareMap, Config.hardware.motor.lfm.id, Config.hardware.servo.lfs.id, Config.hardware.sensor.lfenc.id,
-                new PIDFCoefficients(kP, 0, kD, kFFront), Config.hardware.motor.lfm.direction,
-                DcMotorSimple.Direction.FORWARD, Math.toRadians(43 % 360), new Pose(dtLength, dtWidth),
-                0.004, 3.225, false);
-        pod.setMotorCachingThreshold(0.05);
-        pod.setServoCachingThreshold(0.05);
+                new PIDFCoefficients(lfConstants.kp, lfConstants.ki, lfConstants.kd, lfConstants.kf), Config.hardware.motor.lfm.direction,
+                DcMotorSimple.Direction.FORWARD, Math.toRadians(44.2125 % 360), new Pose(dtLength, dtWidth),
+                0.025, 3.225, false);
+        pod.setMotorCachingThreshold(0.01);
+        pod.setServoCachingThreshold(0.01);
         return pod;
     }
 
     private static CoaxialPod rightFront(HardwareMap hardwareMap) {
         CoaxialPod pod = new CoaxialPod(hardwareMap, Config.hardware.motor.rfm.id, Config.hardware.servo.rfs.id, Config.hardware.sensor.rfenc.id,
-                new PIDFCoefficients(kP, 0, kD, kFFront), Config.hardware.motor.rfm.direction,
-                DcMotorSimple.Direction.FORWARD, Math.toRadians(0 % 360), new Pose(dtLength, -dtWidth),
-                0.001, 3.213, false);
-        pod.setMotorCachingThreshold(0.05);
-        pod.setServoCachingThreshold(0.05);
+                new PIDFCoefficients(rfConstants.kp, rfConstants.ki, rfConstants.kd, rfConstants.kf), Config.hardware.motor.rfm.direction,
+                DcMotorSimple.Direction.FORWARD, Math.toRadians(349.8070 % 360), new Pose(dtLength, -dtWidth),
+                0.002, 3.216, false);
+        pod.setMotorCachingThreshold(0.01);
+        pod.setServoCachingThreshold(0.01);
         return pod;
     }
 
     private static CoaxialPod leftBack(HardwareMap hardwareMap) {
         CoaxialPod pod = new CoaxialPod(hardwareMap, Config.hardware.motor.lbm.id, Config.hardware.servo.lbs.id, Config.hardware.sensor.lbenc.id,
-                new PIDFCoefficients(kP, 0, kD, kFBack), Config.hardware.motor.lbm.direction,
-                DcMotorSimple.Direction.FORWARD, Math.toRadians(32.03 % 360), new Pose(-dtLength, dtWidth),
+                new PIDFCoefficients(lbConstants.kp, lbConstants.ki, lbConstants.kd, lbConstants.kf), Config.hardware.motor.lbm.direction,
+                DcMotorSimple.Direction.FORWARD, Math.toRadians(29.9066 % 360), new Pose(-dtLength, dtWidth),
                 0.004, 3.218, false);
-        pod.setMotorCachingThreshold(0.05);
-        pod.setServoCachingThreshold(0.05);
+        pod.setMotorCachingThreshold(0.01);
+        pod.setServoCachingThreshold(0.01);
         return pod;
     }
 
     private static CoaxialPod rightBack(HardwareMap hardwareMap) {
         CoaxialPod pod = new CoaxialPod(hardwareMap, Config.hardware.motor.rbm.id, Config.hardware.servo.rbs.id, Config.hardware.sensor.rbenc.id,
-                new PIDFCoefficients(kP, 0, kD, kFBack), Config.hardware.motor.rbm.direction,
-                DcMotorSimple.Direction.FORWARD, Math.toRadians(300 % 360), new Pose(-dtLength, -dtWidth),
-                0.002, 3.214, false);
-        pod.setMotorCachingThreshold(0.05);
-        pod.setServoCachingThreshold(0.05);
+                new PIDFCoefficients(rbConstants.kp, rbConstants.ki, rbConstants.kd, rbConstants.kf), Config.hardware.motor.rbm.direction,
+                DcMotorSimple.Direction.FORWARD, Math.toRadians(302.1376 % 360), new Pose(-dtLength, -dtWidth),
+                0.003, 3.2165, false);
+        pod.setMotorCachingThreshold(0.01);
+        pod.setServoCachingThreshold(0.01);
         return pod;
     }
     public static PathConstraints pathConstraints = new PathConstraints(0.9, 2, 2,
@@ -132,4 +133,8 @@ public class Constants {
         }
         return null;
     }
+    @Configurable public static class lfConstants{ public static double kp = 0.2, ki = 0.01, kd = 0, kf = 0;}
+    @Configurable public static class lbConstants{ public static double kp = 0.2, ki = 0.01, kd = 0, kf = 0;}
+    @Configurable public static class rfConstants{ public static double kp = 0.2, ki = 0.01, kd = 0, kf = 0;}
+    @Configurable public static class rbConstants{ public static double kp = 0.2, ki = 0.01, kd = 0, kf = 0;}
 }

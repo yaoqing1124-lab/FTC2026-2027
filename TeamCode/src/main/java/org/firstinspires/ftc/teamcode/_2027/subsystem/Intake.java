@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode._2027.Config;
 import org.firstinspires.ftc.teamcode._2027.util.Mode;
 import org.firstinspires.ftc.teamcode.arch.op.OpBehavior;
 import org.firstinspires.ftc.teamcode.arch.op.OpObject;
+
 public class Intake extends OpBehavior {
     DcMotorEx intake, controlIntake;
 
@@ -30,6 +31,7 @@ public class Intake extends OpBehavior {
     public void Start() {
     }
 
+    private double ratio = 3;
     @Override
     public void Loop() {
         switch (m_mode){
@@ -38,8 +40,9 @@ public class Intake extends OpBehavior {
                 controlIntake.setPower(Config.value.INTAKE_POWER);
                 break;
             case shoot:
-                intake.setPower(Config.value.INTAKE_POWER);
-                controlIntake.setPower(-Config.value.INTAKE_POWER);
+                // 由 Intake 控制是否射擊：推球進入持續維持瞄準與轉速的發射器
+                intake.setPower(Config.value.INTAKE_SHOOT_POWER);
+                controlIntake.setPower(-Config.value.INTAKE_SHOOT_POWER);
                 break;
             case brake:
                 intake.setPower(0);
@@ -59,7 +62,7 @@ public class Intake extends OpBehavior {
         motor = m_object.hardwareMap.get(DcMotorEx.class, name);
         motor.setDirection(direction);
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor.setPower(0);
         return motor;
     }
@@ -68,5 +71,8 @@ public class Intake extends OpBehavior {
     }
     public static Mode getMode(){
         return m_mode;
+    }
+    private static double RPM2TicksPerSecond(double RPM){
+        return RPM / 60 * 28;
     }
 }
